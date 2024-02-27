@@ -2,21 +2,21 @@ package Date;
 
 import java.util.List;
 import Date.exceptions.UsuarioNaoEncontradoException;
-import Model.Usuario;
+import Model.User;
 
 public interface IRepositorioUsuario {
 
-	public boolean add(Usuario u);
+	public boolean add(User u);
 
 	public void excluir(long id) throws UsuarioNaoEncontradoException;
 
-	public Usuario buscar(long idUsuario);
+	public User buscar(long idUsuario);
 
-	public void alterar(Usuario usuarioAlt) throws UsuarioNaoEncontradoException;
+	public void alterar(User usuarioAlt) throws UsuarioNaoEncontradoException;
 
-	public Usuario findUser(long id);
+	public User findUser(long id);
 
-	public List<Usuario> listar();
+	public List<User> listar();
 
 	public boolean usuarioExiste(long id);
 

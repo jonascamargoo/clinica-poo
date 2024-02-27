@@ -1,5 +1,5 @@
 package Model;
 
-public enum Tipo {
+public enum Type {
     MEDICO, ASSISTENTE, INDEFINIDO
 }

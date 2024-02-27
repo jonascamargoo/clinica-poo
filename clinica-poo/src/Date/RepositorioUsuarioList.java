@@ -3,16 +3,16 @@ package Date;
 import java.util.ArrayList;
 import java.util.List;
 import Date.exceptions.UsuarioNaoEncontradoException;
-import Model.Usuario;
+import Model.User;
 
 public class RepositorioUsuarioList implements IRepositorioUsuario {
-	private List<Usuario> usuarios;
+	private List<User> usuarios;
 	private long proxId;
 
 	private static RepositorioUsuarioList repositorioUsuarioList;
 
 	public RepositorioUsuarioList() {
-		usuarios = new ArrayList<Usuario>();
+		usuarios = new ArrayList<User>();
 		proxId = 1;
 	}
 
@@ -24,7 +24,7 @@ public class RepositorioUsuarioList implements IRepositorioUsuario {
 	}
 
 	@Override
-	public boolean add(Usuario u) {
+	public boolean add(User u) {
 		if (u == null) {
 			return false;
 		} else {
@@ -49,7 +49,7 @@ public class RepositorioUsuarioList implements IRepositorioUsuario {
 		}
 	}
 
-	public Usuario findUser(long id) {
+	public User findUser(long id) {
 		for (int i = 0; i < usuarios.size(); i++) {
 			if (usuarios.get(i).getId() == id) {
 				return usuarios.get(i);
@@ -59,8 +59,8 @@ public class RepositorioUsuarioList implements IRepositorioUsuario {
 	}
 
 	@Override
-	public Usuario buscar(long idUsuario) {
-		for (Usuario usuario : usuarios) {
+	public User buscar(long idUsuario) {
+		for (User usuario : usuarios) {
 			if (usuario.getId() == idUsuario)
 				return usuario;
 		}
@@ -68,7 +68,7 @@ public class RepositorioUsuarioList implements IRepositorioUsuario {
 	}
 
 	@Override
-	public void alterar(Usuario usuarioAlt) throws UsuarioNaoEncontradoException {
+	public void alterar(User usuarioAlt) throws UsuarioNaoEncontradoException {
 		if (usuarioAlt == null) {
 			throw new NullPointerException();
 		}
@@ -83,17 +83,17 @@ public class RepositorioUsuarioList implements IRepositorioUsuario {
 
 	}
 
-	public List<Usuario> listar() {
-		List<Usuario> usuariosCopia = new ArrayList<Usuario>();
-		for (Usuario usuario : usuarios) {
-			usuariosCopia.add(new Usuario(usuario));
+	public List<User> listar() {
+		List<User> usuariosCopia = new ArrayList<User>();
+		for (User usuario : usuarios) {
+			usuariosCopia.add(new User(usuario));
 		}
 
 		return usuariosCopia;
 	}
 
 	public boolean usuarioExiste(long id) {
-		for (Usuario usuario : usuarios) {
+		for (User usuario : usuarios) {
 			if (usuario.getId() == id) {
 				return true;
 			}

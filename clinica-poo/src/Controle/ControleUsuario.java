@@ -6,8 +6,8 @@ import java.util.List;
 
 import Date.IRepositorioUsuario;
 import Date.exceptions.UsuarioNaoEncontradoException;
-import Model.Tipo;
-import Model.Usuario;
+import Model.Type;
+import Model.User;
 import View.UsuarioView;
 
 public class ControleUsuario {
@@ -22,7 +22,7 @@ public class ControleUsuario {
     }
 
     public boolean add() {
-        Usuario u = usuarioView.lerUsuario();
+        User u = usuarioView.lerUsuario();
         if (repoUsuario.add(u)) {
             return true;
         }
@@ -41,12 +41,12 @@ public class ControleUsuario {
         return false;
     }
 
-    public Usuario findUser(long id) {
+    public User findUser(long id) {
         return repoUsuario.findUser(id);
     }
 
     public void alterar() {
-        Usuario usuarioAlt = usuarioView.alterarUsuario();
+        User usuarioAlt = usuarioView.alterarUsuario();
         try {
             repoUsuario.alterar(usuarioAlt);
         } catch (UsuarioNaoEncontradoException e) {
@@ -55,7 +55,7 @@ public class ControleUsuario {
 
     }
 
-    public List<Usuario> listar() {
+    public List<User> listar() {
         return repoUsuario.listar();
     }
 
@@ -73,14 +73,14 @@ public class ControleUsuario {
         // USUARIOS
         // Usuario 1 vladvostok - médico
 
-        Usuario u1 = Usuario.getInstance("vladvostok v", "vlad123", "vladSenha",
-                Tipo.MEDICO);
+        User u1 = User.getInstance("vladvostok v", "vlad123", "vladSenha",
+                Type.MEDICO).orElseThrow();
         repoUsuario.add(u1);
 
         // Usuario 2 salim - assistente
 
-        Usuario u2 = Usuario.getInstance("Salim s", "salim123", "salimSenha",
-                Tipo.ASSISTENTE);
+        User u2 = User.getInstance("Salim s", "salim123", "salimSenha",
+                Type.ASSISTENTE).orElseThrow();
         repoUsuario.add(u2);
     }
 }

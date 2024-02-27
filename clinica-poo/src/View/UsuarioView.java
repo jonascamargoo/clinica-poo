@@ -4,8 +4,8 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-import Model.Tipo;
-import Model.Usuario;
+import Model.Type;
+import Model.User;
 
 public class UsuarioView {
     private Scanner scn;
@@ -14,7 +14,7 @@ public class UsuarioView {
         scn = new Scanner(System.in);
     }
 
-    public Usuario lerUsuario() {
+    public User lerUsuario() {
         System.out.print("Nome: ");
         String nome = scn.next();
         nome += scn.nextLine();
@@ -24,7 +24,7 @@ public class UsuarioView {
         System.out.print("Senha: ");
         String senha = scn.next();
         senha += scn.nextLine();
-        Tipo tipo = Tipo.INDEFINIDO;
+        Type tipo = Type.INDEFINIDO;
         boolean controller = true;
         while (controller) {
             System.out.print("Tipo: ");
@@ -33,10 +33,10 @@ public class UsuarioView {
                 tipoString += scn.nextLine();
                 String tipoStringUpper = tipoString.toUpperCase();
                 if (tipoStringUpper.equals("ASSISTENTE")) {
-                    tipo = Tipo.ASSISTENTE;
+                    tipo = Type.ASSISTENTE;
                 }
                 if (tipoStringUpper.equals("MEDICO")) {
-                    tipo = Tipo.MEDICO;
+                    tipo = Type.MEDICO;
                 }
 
                 controller = false;
@@ -45,8 +45,13 @@ public class UsuarioView {
                 scn.nextLine();
             }
         }
-        Usuario u = Usuario.getInstance(nome, nomeLogin, senha, tipo);
+        // User u = User.getInstance(nome, nomeLogin, senha, tipo);
+        User u = User.getInstance(nome, nomeLogin, senha, tipo).orElseThrow();
         return u;
+
+        // public Place getPlaceById(UUID id) {
+        //     return placeRepository.findById(id).orElseThrow(PlaceNotFoundException::new);
+        // }
 
     }
 
@@ -78,7 +83,7 @@ public class UsuarioView {
         return id;
     }
 
-    public Usuario alterarUsuario() {
+    public User alterarUsuario() {
         System.out.print("Alteração - Num. ID: ");
         long idUsuarioAntigo = 0;
         try {
@@ -88,17 +93,17 @@ public class UsuarioView {
             scn.nextLine();
             System.out.println("Num. ID inválido, tente novamente");
         }
-        Usuario uNovo = lerUsuario();
+        User uNovo = lerUsuario();
         uNovo.setId(idUsuarioAntigo);
         return uNovo;
     }
 
-    public void listarUsuario(List<Usuario> usuarios) {
+    public void listarUsuario(List<User> usuarios) {
         System.out.println();
         System.out.printf("%7s%15s%12s", "ID", "NOME", "TIPO\n");
-        for (Usuario usuario : usuarios) {
-            System.out.printf("%7s%15s%12s", usuario.getId(), usuario.getNome(),
-                    usuario.getTipo() + "\n");
+        for (User usuario : usuarios) {
+            System.out.printf("%7s%15s%12s", usuario.getId(), usuario.getName(),
+                    usuario.getType() + "\n");
         }
         System.out.println("\n");
 
