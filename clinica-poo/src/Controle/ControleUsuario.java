@@ -6,9 +6,9 @@ import java.util.List;
 
 import Date.IRepositorioUsuario;
 import Date.exceptions.UsuarioNaoEncontradoException;
-import Model.Type;
 import Model.User;
 import View.UsuarioView;
+import enums.Type;
 
 public class ControleUsuario {
 
@@ -74,13 +74,13 @@ public class ControleUsuario {
         // Usuario 1 vladvostok - médico
 
         User u1 = User.getInstance("vladvostok v", "vlad123", "vladSenha",
-                Type.MEDICO).orElseThrow();
+                Type.DOCTOR).orElseThrow();
         repoUsuario.add(u1);
 
         // Usuario 2 salim - assistente
 
         User u2 = User.getInstance("Salim s", "salim123", "salimSenha",
-                Type.ASSISTENTE).orElseThrow();
+                Type.ASSISTANT).orElseThrow();
         repoUsuario.add(u2);
     }
 }

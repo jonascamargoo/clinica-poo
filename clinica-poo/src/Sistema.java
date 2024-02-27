@@ -6,12 +6,12 @@ import Controle.ControleUsuario;
 import Date.RepositorioAnamneseList;
 import Date.RepositorioPacienteList;
 import Date.RepositorioUsuarioList;
-import Model.Type;
 import Model.User;
 import View.AnamneseView;
 import View.MenuView;
 import View.PacienteView;
 import View.UsuarioView;
+import enums.Type;
 
 public class Sistema {
 
@@ -73,9 +73,9 @@ public class Sistema {
                     String[] dados = usuarioView.lerUsuario(true);
                     User uLogin = this.autenticar(dados[0], dados[1]);
                     if (uLogin != null) {
-                        if (uLogin.getType().compareTo(Type.ASSISTENTE) == 0) {
+                        if (uLogin.getType().compareTo(Type.ASSISTANT) == 0) {
                             this.interfaceAssist();
-                        } else if (uLogin.getType().compareTo(Type.MEDICO) == 0) {
+                        } else if (uLogin.getType().compareTo(Type.DOCTOR) == 0) {
                             this.interfaceMed();
                         } else {
                             System.out.println("Usuário de tipo indefinido. Selecione um médico ou assistente");

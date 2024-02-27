@@ -7,13 +7,11 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-import Model.Deficiencia;
 import Model.Endereco;
 import Model.Paciente;
 import Model.PacienteComDeficiencia;
-import Model.Sexo;
-
-
+import enums.Deficiencia;
+import enums.Sex;
 import Date.IRepositorioPaciente;
 
 public class PacienteView {
@@ -33,11 +31,11 @@ public class PacienteView {
         for (int i = 0; i < pacientes.size(); i++) {
             if (pacientes.get(i) instanceof PacienteComDeficiencia) {
                 PacienteComDeficiencia p = (PacienteComDeficiencia) pacientes.get(i);
-                System.out.printf("%7s%12s%15s%15s%15s%15s%15s\n", p.getNumCNS(), p.getSexo(),
+                System.out.printf("%7s%12s%15s%15s%15s%15s%15s\n", p.getNumCNS(), p.getSex(),
                         sdf.format(p.getDataNasc()), p.getNome(), p.getNomeMae(),
                         p.getTelefone(), p.getTipo() + "\n");
             } else {
-                System.out.printf("%7s%12s%15s%15s%15s%15s\n", pacientes.get(i).getNumCNS(), pacientes.get(i).getSexo(),
+                System.out.printf("%7s%12s%15s%15s%15s%15s\n", pacientes.get(i).getNumCNS(), pacientes.get(i).getSex(),
                         sdf.format(pacientes.get(i).getDataNasc()), pacientes.get(i).getNome(),
                         pacientes.get(i).getNomeMae(),
                         pacientes.get(i).getTelefone() + "\n");
@@ -52,7 +50,7 @@ public class PacienteView {
         Paciente p;
         Paciente pacienteComDeficiencia;
         char s;
-        Sexo sexo;
+        Sex sex;
         System.out.print("Nome: ");
         String nome = scn.next();
         nome += scn.nextLine();
@@ -85,18 +83,18 @@ public class PacienteView {
             switch (s) {
                 case 'M':
                 case 'm':
-                    sexo = Sexo.MASCULINO;
+                    sex = Sex.MALE;
                     break;
                 case 'F':
                 case 'f':
-                    sexo = Sexo.FEMININO;
+                    sex = Sex.FEMALE;
                     break;
                 case 'I':
                 case 'i':
-                    sexo = Sexo.INTERSEXO;
+                    sex = Sex.INTERSEX;
                     break;
                 default:
-                    sexo = Sexo.INTERSEXO;
+                    sex = Sex.INTERSEX;
             }
         } while (s != 'M' && s != 'm' && s != 'f' && s != 'F' && s != 'i' && s != 'I');
         Endereco endereco = lerEndereco();
@@ -143,12 +141,12 @@ public class PacienteView {
                 System.out.println("Fator Complicador: ");
                 String fatorComplicador = scn.next();
                 fatorComplicador += scn.nextLine();
-                pacienteComDeficiencia = PacienteComDeficiencia.getInstance(nome, nomeMae, d, sexo, endereco, telefone,
+                pacienteComDeficiencia = PacienteComDeficiencia.getInstance(nome, nomeMae, d, sex, endereco, telefone,
                         tipoDeficiencia, fatorComplicador);
                 return pacienteComDeficiencia;
             }
         }
-        p = Paciente.getInstance(nome, nomeMae, d, sexo, endereco, telefone);
+        p = Paciente.getInstance(nome, nomeMae, d, sex, endereco, telefone);
         return p;
 
     }

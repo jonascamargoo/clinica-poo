@@ -2,6 +2,8 @@ package Model;
 
 import java.util.Optional;
 
+import enums.Type;
+
 public class User implements Authenticatable {
 
 	// private static long codigo = 0;
@@ -11,14 +13,17 @@ public class User implements Authenticatable {
 	private String password;
 	private Type type;
 
-	private User(String name, String loginName, String password, Type type, boolean isCopy) {
+	private User(
+			String name, String loginName, 
+			String password, Type type, boolean isCopy
+		) {
 		this.name = name;
 		this.loginName = loginName;
 		this.password = password;
 		this.type = type;
 	}
 
-	// Copy constructor
+	// Copy constructor - esse padrao eh utilizado para criar uma nova instancia de uma classe com base em uma instancia existente. Ele eh util para criar copias imutaveis de objetos
 	public User(User user) {
 		this(
 			user.name, user.loginName, user.password, 

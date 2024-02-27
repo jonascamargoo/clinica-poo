@@ -4,8 +4,8 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-import Model.Type;
 import Model.User;
+import enums.Type;
 
 public class UsuarioView {
     private Scanner scn;
@@ -24,7 +24,7 @@ public class UsuarioView {
         System.out.print("Senha: ");
         String senha = scn.next();
         senha += scn.nextLine();
-        Type tipo = Type.INDEFINIDO;
+        Type tipo = Type.UNDEFINED;
         boolean controller = true;
         while (controller) {
             System.out.print("Tipo: ");
@@ -33,10 +33,10 @@ public class UsuarioView {
                 tipoString += scn.nextLine();
                 String tipoStringUpper = tipoString.toUpperCase();
                 if (tipoStringUpper.equals("ASSISTENTE")) {
-                    tipo = Type.ASSISTENTE;
+                    tipo = Type.ASSISTANT;
                 }
                 if (tipoStringUpper.equals("MEDICO")) {
-                    tipo = Type.MEDICO;
+                    tipo = Type.DOCTOR;
                 }
 
                 controller = false;

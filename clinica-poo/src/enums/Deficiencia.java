@@ -1,4 +1,4 @@
-package Model;
+package enums;
 
 public enum Deficiencia {
     MOTORA("mo"), MENTAL("me"), VISUAL("v"), OUTRO("o");

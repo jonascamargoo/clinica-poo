@@ -13,8 +13,8 @@ import Date.exceptions.ExcluirPacienteException;
 import Date.exceptions.PacienteInvalidoException;
 import Model.Anamnese;
 import Model.Endereco;
-import Model.Sexo;
 import View.PacienteView;
+import enums.Sex;
 
 public class ControlePaciente {
     private List<Paciente> pacientes;
@@ -113,7 +113,7 @@ public class ControlePaciente {
         }
         Endereco e1 = new Endereco("labuta", "cidadeAlta", "SE", 45);
 
-        Paciente p1 = Paciente.getInstance("Billie", "Ollie", data, Sexo.INTERSEXO,
+        Paciente p1 = Paciente.getInstance("Billie", "Ollie", data, Sex.INTERSEX,
                 e1, "132459876");
         try {
             repoPaciente.add(p1);
@@ -130,7 +130,7 @@ public class ControlePaciente {
         }
         Endereco e2 = new Endereco("labuta", "cidadeAlta", "SP", 25);
 
-        Paciente p2 = Paciente.getInstance("Joe", "maeJoe", data, Sexo.FEMININO, e2,
+        Paciente p2 = Paciente.getInstance("Joe", "maeJoe", data, Sex.FEMALE, e2,
                 "159423687");
 
         try {
@@ -149,7 +149,7 @@ public class ControlePaciente {
 
         Endereco e3 = new Endereco("labuta", "cidadeAlta", "PA", 25);
 
-        Paciente p3 = Paciente.getInstance("Joanne", "maeJoane", data, Sexo.FEMININO,
+        Paciente p3 = Paciente.getInstance("Joanne", "maeJoane", data, Sex.FEMALE,
                 e3,
                 "132459876");
         p3.add(e3);
@@ -169,7 +169,7 @@ public class ControlePaciente {
 
         Endereco e4 = new Endereco("labuta", "cidadeAlta", "MA", 25);
 
-        Paciente p4 = Paciente.getInstance("Kayne", "maeKayne", data, Sexo.FEMININO,
+        Paciente p4 = Paciente.getInstance("Kayne", "maeKayne", data, Sex.FEMALE,
                 e4,
                 "987465321");
 
@@ -188,7 +188,7 @@ public class ControlePaciente {
         }
 
         Endereco e5 = new Endereco("labuta", "cidadeAlta", "MG", 25);
-        Paciente p5 = Paciente.getInstance("Kayne", "maeJoao", data, Sexo.FEMININO,
+        Paciente p5 = Paciente.getInstance("Kayne", "maeJoao", data, Sex.FEMALE,
                 e5,
                 "12345678");
         try {
