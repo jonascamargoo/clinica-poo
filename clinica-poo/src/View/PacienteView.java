@@ -10,7 +10,7 @@ import java.util.Scanner;
 import Model.Endereco;
 import Model.Paciente;
 import Model.PacienteComDeficiencia;
-import enums.Deficiencia;
+import enums.Disability;
 import enums.Sex;
 import Date.IRepositorioPaciente;
 
@@ -104,7 +104,7 @@ public class PacienteView {
 
         System.out.println("Tem deficiência? [S/N] ");
         String temDeficiencia = scn.next();
-        Deficiencia tipoDeficiencia = Deficiencia.OUTRO;
+        Disability tipoDeficiencia = Disability.OTHER;
         boolean PCD = false;
         if (temDeficiencia.equals("S") || temDeficiencia.equals("s") || temDeficiencia.equals("n")
                 || temDeficiencia.equals("N")) {
@@ -118,21 +118,21 @@ public class PacienteView {
                     case "mO":
                     case "Mo":
                     case "MO":
-                        tipoDeficiencia = Deficiencia.MOTORA;
+                        tipoDeficiencia = Disability.MOTOR;
                         break;
                     case "me":
                     case "Me":
                     case "mE":
                     case "ME":
-                        tipoDeficiencia = Deficiencia.MENTAL;
+                        tipoDeficiencia = Disability.MENTAL;
                         break;
                     case "v":
                     case "V":
-                        tipoDeficiencia = Deficiencia.VISUAL;
+                        tipoDeficiencia = Disability.VISUAL;
                         break;
                     case "o":
                     case "O":
-                        tipoDeficiencia = Deficiencia.OUTRO;
+                        tipoDeficiencia = Disability.OTHER;
                         break;
                     default:
                         System.out.println("Criando um paciente com o tipo de deficiência OUTRO");
