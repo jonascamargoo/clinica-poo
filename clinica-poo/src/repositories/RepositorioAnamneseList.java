@@ -1,11 +1,11 @@
-package Date;
+package repositories;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import Date.exceptions.AnamneseInvalidaException;
-import Date.exceptions.AnamneseNaoEncontradaException;
 import Model.Anamnese;
+import exceptions.AnamneseInvalidaException;
+import exceptions.AnamneseNaoEncontradaException;
 
 public class RepositorioAnamneseList implements IRepositorioAnamnese {
     private List<Anamnese> anamneses;
@@ -109,11 +109,11 @@ public class RepositorioAnamneseList implements IRepositorioAnamnese {
     public boolean existeHomonimo(String nome) {
         String nomeMae;
         for (Anamnese anamnese : anamneses) {
-            if (anamnese.getPaciente().getNome().equals(nome)) {
+            if (anamnese.getPaciente().getName().equals(nome)) {
                 nomeMae = anamnese.getPaciente().getNomeMae();
                 for (Anamnese anamnese2 : anamneses) {
                     if (anamnese2 != anamnese
-                            && anamnese2.getPaciente().getNome().equals(anamnese.getPaciente().getNome())
+                            && anamnese2.getPaciente().getName().equals(anamnese.getPaciente().getName())
                             && !anamnese2.getPaciente().getNomeMae().equals(nomeMae)) {
                         return true;
                     }

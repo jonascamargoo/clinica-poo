@@ -4,11 +4,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import Date.IRepositorioUsuario;
-import Date.exceptions.UsuarioNaoEncontradoException;
 import Model.User;
 import View.UsuarioView;
 import enums.Type;
+import exceptions.UsuarioNaoEncontradoException;
+import repositories.IRepositorioUsuario;
 
 public class ControleUsuario {
 

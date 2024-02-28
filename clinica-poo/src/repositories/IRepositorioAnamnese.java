@@ -1,10 +1,10 @@
-package Date;
+package repositories;
 
 import java.util.List;
 
-import Date.exceptions.AnamneseInvalidaException;
-import Date.exceptions.AnamneseNaoEncontradaException;
 import Model.Anamnese;
+import exceptions.AnamneseInvalidaException;
+import exceptions.AnamneseNaoEncontradaException;
 
 public interface IRepositorioAnamnese {
     public void add(Anamnese a) throws AnamneseInvalidaException;

@@ -3,15 +3,15 @@ import java.util.List;
 import Controle.ControleAnamnese;
 import Controle.ControlePaciente;
 import Controle.ControleUsuario;
-import Date.RepositorioAnamneseList;
-import Date.RepositorioPacienteList;
-import Date.RepositorioUsuarioList;
 import Model.User;
 import View.AnamneseView;
 import View.MenuView;
 import View.PacienteView;
 import View.UsuarioView;
 import enums.Type;
+import repositories.RepositorioAnamneseList;
+import repositories.RepositorioPacienteList;
+import repositories.RepositorioUsuarioList;
 
 public class Sistema {
 

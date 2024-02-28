@@ -1,8 +1,9 @@
 package Date;
 
 import java.util.List;
-import Date.exceptions.UsuarioNaoEncontradoException;
+
 import Model.User;
+import exceptions.UsuarioNaoEncontradoException;
 
 public interface IRepositorioUsuario {
 

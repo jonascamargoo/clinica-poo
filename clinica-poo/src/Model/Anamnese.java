@@ -4,7 +4,7 @@ public class Anamnese {
     private static long codigo = 0;
     private long id;
 
-    private Paciente paciente;
+    private Patient paciente;
     private String motivo;
     private String relato;
     private String diagnostico;
@@ -29,11 +29,11 @@ public class Anamnese {
         return this.diagnostico;
     }
 
-    public Paciente getPaciente() {
+    public Patient getPaciente() {
         return this.paciente;
     }
 
-    private Anamnese(Paciente paciente, String motivo, String relato, String diagnostico, boolean ehCopia) {
+    private Anamnese(Patient paciente, String motivo, String relato, String diagnostico, boolean ehCopia) {
         this.diagnostico = diagnostico;
         this.motivo = motivo;
         this.relato = relato;
@@ -45,11 +45,11 @@ public class Anamnese {
     }
 
     public Anamnese(Anamnese a) {
-        this(new Paciente(a.paciente), a.motivo, a.relato, a.diagnostico, true);
+        this(new Patient(a.paciente), a.motivo, a.relato, a.diagnostico, true);
         this.setId(a.getId());
     }
 
-    public static Anamnese getInstance(Paciente paciente, String motivo, String relato, String diagnostico) {
+    public static Anamnese getInstance(Patient paciente, String motivo, String relato, String diagnostico) {
         if (paciente != null && motivo != null && relato != null && diagnostico != null) {
             return new Anamnese(paciente, motivo, relato, diagnostico, false);
         }

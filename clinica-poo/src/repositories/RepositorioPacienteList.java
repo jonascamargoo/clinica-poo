@@ -1,17 +1,17 @@
-package Date;
+package repositories;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import Date.exceptions.AlterarPacienteException;
-import Date.exceptions.ExcluirPacienteException;
-import Date.exceptions.PacienteInvalidoException;
 import Model.Anamnese;
-import Model.Paciente;
-import Model.PacienteComDeficiencia;
+import Model.Patient;
+import Model.PatientWithDisability;
+import exceptions.AlterarPacienteException;
+import exceptions.ExcluirPacienteException;
+import exceptions.PacienteInvalidoException;
 
 public class RepositorioPacienteList implements IRepositorioPaciente {
-    private List<Paciente> pacientes;
+    private List<Patient> pacientes;
     private List<Anamnese> anamneses;
     private long proxId;
 
@@ -26,11 +26,11 @@ public class RepositorioPacienteList implements IRepositorioPaciente {
     }
 
     protected RepositorioPacienteList() {
-        pacientes = new ArrayList<Paciente>();
+        pacientes = new ArrayList<Patient>();
         proxId = 1;
     }
 
-    public void add(Paciente p) throws PacienteInvalidoException {
+    public void add(Patient p) throws PacienteInvalidoException {
         if (p == null) {
             throw new PacienteInvalidoException("Dados inválidos");
         }
@@ -38,7 +38,7 @@ public class RepositorioPacienteList implements IRepositorioPaciente {
             // checagem do requisito 'Não deve ser possível inserir mais de um paciente com
             // o mesmo nome e mesmo nome de mãe'
             if (this.pacientes.get(i) != null) {
-                if (this.pacientes.get(i).getNome().equals(p.getNome())
+                if (this.pacientes.get(i).getName().equals(p.getName())
                         && this.pacientes.get(i).getNomeMae().equals(p.getNomeMae())) {
                     throw new PacienteInvalidoException("Dados inválidos");
                 }
@@ -53,13 +53,13 @@ public class RepositorioPacienteList implements IRepositorioPaciente {
 
     }
 
-    public List<Paciente> listar() {
-        List<Paciente> pacientesCopia = new ArrayList<Paciente>();
-        for (Paciente paciente : pacientes) {
-            if (paciente instanceof PacienteComDeficiencia) {
-                pacientesCopia.add(new PacienteComDeficiencia((PacienteComDeficiencia) paciente));
+    public List<Patient> listar() {
+        List<Patient> pacientesCopia = new ArrayList<Patient>();
+        for (Patient paciente : pacientes) {
+            if (paciente instanceof PatientWithDisability) {
+                pacientesCopia.add(new PatientWithDisability((PatientWithDisability) paciente));
             } else {
-                pacientesCopia.add(new Paciente(paciente));
+                pacientesCopia.add(new Patient(paciente));
             }
         }
 
@@ -67,7 +67,7 @@ public class RepositorioPacienteList implements IRepositorioPaciente {
     }
 
     public void excluir(long numCNS) throws ExcluirPacienteException {
-        Paciente p = this.findByCNS(numCNS);
+        Patient p = this.findByCNS(numCNS);
         if (p != null) {
             for (int j = 0; j < this.anamneses.size(); j++) {
                 if (this.anamneses.get(j) != null) {
@@ -87,7 +87,7 @@ public class RepositorioPacienteList implements IRepositorioPaciente {
 
     }
 
-    public void alterar(Paciente pAlterado) throws AlterarPacienteException {
+    public void alterar(Patient pAlterado) throws AlterarPacienteException {
         if (!existePaciente(pAlterado.getNumCNS())) {
             throw new AlterarPacienteException("Paciente não encontrado");
         }
@@ -100,7 +100,7 @@ public class RepositorioPacienteList implements IRepositorioPaciente {
         }
     }
 
-    public Paciente findByCNS(long numCNS) {
+    public Patient findByCNS(long numCNS) {
         for (int i = 0; i < pacientes.size(); i++) {
             if (pacientes.get(i) != null) {
                 if (pacientes.get(i).getNumCNS() == numCNS) {
@@ -111,7 +111,7 @@ public class RepositorioPacienteList implements IRepositorioPaciente {
         return null;
     }
 
-    public Paciente buscar(long idPaciente) {
+    public Patient buscar(long idPaciente) {
         for (int i = 0; i < pacientes.size(); i++) {
             if (pacientes.get(i).getNumCNS() == idPaciente) {
                 return pacientes.get(i);
@@ -121,7 +121,7 @@ public class RepositorioPacienteList implements IRepositorioPaciente {
     }
 
     public boolean existePaciente(long cns) {
-        for (Paciente paciente : pacientes) {
+        for (Patient paciente : pacientes) {
             if (paciente.getNumCNS() == cns) {
                 return true;
             }
@@ -131,7 +131,7 @@ public class RepositorioPacienteList implements IRepositorioPaciente {
 
     public boolean pacienteAtreladoAnamnese(long id) {
         if (existePaciente(id) && existeAnamnese(id)) {
-            Paciente p = findByCNS(id);
+            Patient p = findByCNS(id);
             Anamnese a = buscaAnamnese(id);
             if (a.getPaciente() == p) {
                 return true;
@@ -140,9 +140,9 @@ public class RepositorioPacienteList implements IRepositorioPaciente {
         return false;
     }
 
-    public Paciente findByName(String nome) {
-        for (Paciente paciente : pacientes) {
-            if (paciente.getNome().equals(nome)) {
+    public Patient findByName(String nome) {
+        for (Patient paciente : pacientes) {
+            if (paciente.getName().equals(nome)) {
                 return paciente;
             }
         }

@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Scanner;
 
 import Model.Endereco;
-import Model.Paciente;
-import Model.PacienteComDeficiencia;
+import Model.Patient;
+import Model.PatientWithDisability;
 import enums.Disability;
 import enums.Sex;
-import Date.IRepositorioPaciente;
+import repositories.IRepositorioPaciente;
 
 public class PacienteView {
 
@@ -21,7 +21,7 @@ public class PacienteView {
     // ControlePaciente controlePaciente = new ControlePaciente(repoPaciente);
     private MenuView menuView;
 
-    public void listarPacientes(List<Paciente> pacientes) {
+    public void listarPacientes(List<Patient> pacientes) {
         System.out.println("\n");
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -29,14 +29,14 @@ public class PacienteView {
                 "TELEFONE", "DEFICIENCIA\n");
 
         for (int i = 0; i < pacientes.size(); i++) {
-            if (pacientes.get(i) instanceof PacienteComDeficiencia) {
-                PacienteComDeficiencia p = (PacienteComDeficiencia) pacientes.get(i);
+            if (pacientes.get(i) instanceof PatientWithDisability) {
+                PatientWithDisability p = (PatientWithDisability) pacientes.get(i);
                 System.out.printf("%7s%12s%15s%15s%15s%15s%15s\n", p.getNumCNS(), p.getSex(),
-                        sdf.format(p.getDataNasc()), p.getNome(), p.getNomeMae(),
+                        sdf.format(p.getDataNasc()), p.getName(), p.getNomeMae(),
                         p.getTelefone(), p.getTipo() + "\n");
             } else {
                 System.out.printf("%7s%12s%15s%15s%15s%15s\n", pacientes.get(i).getNumCNS(), pacientes.get(i).getSex(),
-                        sdf.format(pacientes.get(i).getDataNasc()), pacientes.get(i).getNome(),
+                        sdf.format(pacientes.get(i).getDataNasc()), pacientes.get(i).getName(),
                         pacientes.get(i).getNomeMae(),
                         pacientes.get(i).getTelefone() + "\n");
             }
@@ -44,11 +44,11 @@ public class PacienteView {
         System.out.println("\n");
     }
 
-    public Paciente lerPaciente() {
+    public Patient lerPaciente() {
 
         boolean controller = true;
-        Paciente p;
-        Paciente pacienteComDeficiencia;
+        Patient p;
+        Patient pacienteComDeficiencia;
         char s;
         Sex sex;
         System.out.print("Nome: ");
@@ -141,12 +141,12 @@ public class PacienteView {
                 System.out.println("Fator Complicador: ");
                 String fatorComplicador = scn.next();
                 fatorComplicador += scn.nextLine();
-                pacienteComDeficiencia = PacienteComDeficiencia.getInstance(nome, nomeMae, d, sex, endereco, telefone,
+                pacienteComDeficiencia = PatientWithDisability.getInstance(nome, nomeMae, d, sex, endereco, telefone,
                         tipoDeficiencia, fatorComplicador);
                 return pacienteComDeficiencia;
             }
         }
-        p = Paciente.getInstance(nome, nomeMae, d, sex, endereco, telefone);
+        p = Patient.getInstance(nome, nomeMae, d, sex, endereco, telefone);
         return p;
 
     }
@@ -163,7 +163,7 @@ public class PacienteView {
         return cns;
     }
 
-    public Paciente alterarPaciente() {
+    public Patient alterarPaciente() {
         System.out.print("Alteração - Num. CNS: ");
         long cns = 0;
         long id = 0;
@@ -175,7 +175,7 @@ public class PacienteView {
 
         }
 
-        Paciente p = lerPaciente();
+        Patient p = lerPaciente();
         p.setId(cns);
         return p;
     }

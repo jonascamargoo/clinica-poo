@@ -4,9 +4,9 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-import Date.RepositorioPacienteList;
 import Model.Anamnese;
-import Model.Paciente;
+import Model.Patient;
+import repositories.RepositorioPacienteList;
 
 public class AnamneseView {
 
@@ -50,7 +50,7 @@ public class AnamneseView {
             scn.nextLine();
             return null;
         }
-        Paciente p = repositorioPacienteList.findByCNS(cns);
+        Patient p = repositorioPacienteList.findByCNS(cns);
         
 
         System.out.print("Motivo: ");
@@ -89,7 +89,7 @@ public class AnamneseView {
     public void listarApenasUmaA(Anamnese a) {
         System.out.printf("%7s%15s%25s%30s%30s%30s", "ID", "PACIENTE", "MÃE DO PACIENTE", "MOTIVO", "RELATO",
         "DIAGNOSTICO\n");
-        System.out.printf("%7s%15s%25s%30s%30s%30s", a.getId(), a.getPaciente().getNome(),
+        System.out.printf("%7s%15s%25s%30s%30s%30s", a.getId(), a.getPaciente().getName(),
                     a.getPaciente().getNomeMae(), a.getMotivo(), a.getRelato(),
                     a.getDiagnostico() + "\n");
 
@@ -99,7 +99,7 @@ public class AnamneseView {
         System.out.printf("%7s%15s%25s%30s%30s%30s", "ID", "PACIENTE", "MÃE DO PACIENTE", "MOTIVO", "RELATO",
                 "DIAGNOSTICO\n");
         for (Anamnese anamnese : anamneses) {
-            System.out.printf("%7s%15s%25s%30s%30s%30s", anamnese.getId(), anamnese.getPaciente().getNome(),
+            System.out.printf("%7s%15s%25s%30s%30s%30s", anamnese.getId(), anamnese.getPaciente().getName(),
                     anamnese.getPaciente().getNomeMae(), anamnese.getMotivo(), anamnese.getRelato(),
                     anamnese.getDiagnostico() + "\n");
         }
@@ -113,7 +113,7 @@ public class AnamneseView {
         return cns;
     }
 
-    public Paciente findByCNS(List<Paciente> pacientes, long cns) {
+    public Patient findByCNS(List<Patient> pacientes, long cns) {
         for (int i = 0; i < pacientes.size(); i++) {
             if (pacientes.get(i) != null) {
                 if (pacientes.get(i).getNumCNS() == cns) {

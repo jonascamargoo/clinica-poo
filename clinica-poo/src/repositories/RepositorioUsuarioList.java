@@ -1,9 +1,10 @@
-package Date;
+package repositories;
 
 import java.util.ArrayList;
 import java.util.List;
-import Date.exceptions.UsuarioNaoEncontradoException;
+
 import Model.User;
+import exceptions.UsuarioNaoEncontradoException;
 
 public class RepositorioUsuarioList implements IRepositorioUsuario {
 	private List<User> usuarios;

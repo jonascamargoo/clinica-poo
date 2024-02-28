@@ -1,14 +1,15 @@
 package Controle;
 
 import java.util.List;
-import Date.IRepositorioAnamnese;
-import Date.IRepositorioPaciente;
-import Date.RepositorioPacienteList;
-import Date.exceptions.AnamneseInvalidaException;
-import Date.exceptions.AnamneseNaoEncontradaException;
+
 import Model.Anamnese;
-import Model.Paciente;
+import Model.Patient;
 import View.AnamneseView;
+import exceptions.AnamneseInvalidaException;
+import exceptions.AnamneseNaoEncontradaException;
+import repositories.IRepositorioAnamnese;
+import repositories.IRepositorioPaciente;
+import repositories.RepositorioPacienteList;
 
 public class ControleAnamnese {
     private AnamneseView anamneseView;
@@ -74,7 +75,7 @@ public class ControleAnamnese {
     public void init() {
         RepositorioPacienteList repositorioPacienteList = RepositorioPacienteList.getInstance();
         ControlePaciente controlePaciente = new ControlePaciente(repositorioPacienteList);
-        Paciente p1 = controlePaciente.findByCNS(01);
+        Patient p1 = controlePaciente.findByCNS(01);
         // ANAMNESES
         // Anamnese 1
         
@@ -86,7 +87,7 @@ public class ControleAnamnese {
             e.printStackTrace();
         }
         // Anamnese 2
-        Paciente p2 = controlePaciente.findByCNS(02);
+        Patient p2 = controlePaciente.findByCNS(02);
         Anamnese a2 = Anamnese.getInstance(p2, "dor no olho", "olho tava doendo demais", "problema nos olhos");
         try {
             repoAnamnese.add(a2);
@@ -96,7 +97,7 @@ public class ControleAnamnese {
         }
         
         // Anamnese 3
-        Paciente p3 = controlePaciente.findByCNS(03);
+        Patient p3 = controlePaciente.findByCNS(03);
         Anamnese a3 = Anamnese.getInstance(p3, "dor na garganta", "garganta tava doendo demais",
         "problema na garganta");
         try {

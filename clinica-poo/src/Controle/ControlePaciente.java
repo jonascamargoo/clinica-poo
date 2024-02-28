@@ -5,19 +5,19 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import Model.Paciente;
-import Date.IRepositorioAnamnese;
-import Date.IRepositorioPaciente;
-import Date.exceptions.AlterarPacienteException;
-import Date.exceptions.ExcluirPacienteException;
-import Date.exceptions.PacienteInvalidoException;
+import Model.Patient;
 import Model.Anamnese;
 import Model.Endereco;
 import View.PacienteView;
 import enums.Sex;
+import exceptions.AlterarPacienteException;
+import exceptions.ExcluirPacienteException;
+import exceptions.PacienteInvalidoException;
+import repositories.IRepositorioAnamnese;
+import repositories.IRepositorioPaciente;
 
 public class ControlePaciente {
-    private List<Paciente> pacientes;
+    private List<Patient> pacientes;
     private PacienteView pacienteView;
     private IRepositorioPaciente repoPaciente;
     private IRepositorioAnamnese repoAnamnese;
@@ -30,7 +30,7 @@ public class ControlePaciente {
     }
 
     public void add() {
-        Paciente p = pacienteView.lerPaciente();
+        Patient p = pacienteView.lerPaciente();
         try {
             repoPaciente.add(p);
         } catch (PacienteInvalidoException e) {
@@ -47,12 +47,12 @@ public class ControlePaciente {
         }
     }
 
-    public List<Paciente> listar() {
+    public List<Patient> listar() {
         return repoPaciente.listar();
     }
 
     public void alterar() {
-        Paciente pAlterado = pacienteView.alterarPaciente();
+        Patient pAlterado = pacienteView.alterarPaciente();
         try {
             repoPaciente.alterar(pAlterado);
         } catch (AlterarPacienteException e) {
@@ -60,13 +60,13 @@ public class ControlePaciente {
         }
     }
 
-    public Paciente findByCNS(long cns) {
+    public Patient findByCNS(long cns) {
         return repoPaciente.findByCNS(cns);
     }
 
     public boolean pacienteAtreladoAnamnese(long id) {
         if (existePaciente(id) && existeAnamnese(id)) {
-            Paciente p = findByCNS(id);
+            Patient p = findByCNS(id);
             Anamnese a = buscaAnamnese(id);
             if (a.getPaciente() == p) {
                 return true;
@@ -93,9 +93,9 @@ public class ControlePaciente {
         return false;
     }
 
-    public Paciente findByName(String nome) {
-        for (Paciente paciente : pacientes) {
-            if (paciente.getNome().equals(nome)) {
+    public Patient findByName(String nome) {
+        for (Patient paciente : pacientes) {
+            if (paciente.getName().equals(nome)) {
                 return paciente;
             }
         }
@@ -113,7 +113,7 @@ public class ControlePaciente {
         }
         Endereco e1 = new Endereco("labuta", "cidadeAlta", "SE", 45);
 
-        Paciente p1 = Paciente.getInstance("Billie", "Ollie", data, Sex.INTERSEX,
+        Patient p1 = Patient.getInstance("Billie", "Ollie", data, Sex.INTERSEX,
                 e1, "132459876");
         try {
             repoPaciente.add(p1);
@@ -130,7 +130,7 @@ public class ControlePaciente {
         }
         Endereco e2 = new Endereco("labuta", "cidadeAlta", "SP", 25);
 
-        Paciente p2 = Paciente.getInstance("Joe", "maeJoe", data, Sex.FEMALE, e2,
+        Patient p2 = Patient.getInstance("Joe", "maeJoe", data, Sex.FEMALE, e2,
                 "159423687");
 
         try {
@@ -149,7 +149,7 @@ public class ControlePaciente {
 
         Endereco e3 = new Endereco("labuta", "cidadeAlta", "PA", 25);
 
-        Paciente p3 = Paciente.getInstance("Joanne", "maeJoane", data, Sex.FEMALE,
+        Patient p3 = Patient.getInstance("Joanne", "maeJoane", data, Sex.FEMALE,
                 e3,
                 "132459876");
         p3.add(e3);
@@ -169,7 +169,7 @@ public class ControlePaciente {
 
         Endereco e4 = new Endereco("labuta", "cidadeAlta", "MA", 25);
 
-        Paciente p4 = Paciente.getInstance("Kayne", "maeKayne", data, Sex.FEMALE,
+        Patient p4 = Patient.getInstance("Kayne", "maeKayne", data, Sex.FEMALE,
                 e4,
                 "987465321");
 
@@ -188,7 +188,7 @@ public class ControlePaciente {
         }
 
         Endereco e5 = new Endereco("labuta", "cidadeAlta", "MG", 25);
-        Paciente p5 = Paciente.getInstance("Kayne", "maeJoao", data, Sex.FEMALE,
+        Patient p5 = Patient.getInstance("Kayne", "maeJoao", data, Sex.FEMALE,
                 e5,
                 "12345678");
         try {

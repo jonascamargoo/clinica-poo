@@ -1,4 +1,4 @@
-package Date.exceptions;
+package exceptions;
 
 public class AnamneseInvalidaException  extends Exception {
     public AnamneseInvalidaException() {
