@@ -11,10 +11,7 @@ public class Anamnesis {
     private String report;
     private String diagnosis;
 
-    private Anamnesis(
-            Patient patient, String reason, String report, 
-            String diagnosis, boolean isCopy
-        ) {
+    private Anamnesis(Patient patient, String reason, String report, String diagnosis, boolean isCopy) {
         this.diagnosis = diagnosis;
         this.reason = reason;
         this.report = report;
@@ -26,10 +23,7 @@ public class Anamnesis {
     }
 
     public Anamnesis(Anamnesis a) {
-        this(
-            new Patient(a.patient), a.reason, 
-            a.report, a.diagnosis, true
-        );
+        this(new Patient(a.patient), a.reason, a.report, a.diagnosis, true);
         this.setId(a.getId());
     }
 
@@ -37,18 +31,10 @@ public class Anamnesis {
     //     this.code = isCopy ? this.code : id++;
     // }
 
-    public static Optional<Anamnesis> getInstance(
-            Patient patient, String reason, 
-            String report, String diagnosis
-        ) {
-        return (
-            patient != null && reason != null && 
-            report != null && diagnosis != null
-        ) ? Optional.of(
-                new Anamnesis(
-                    patient, reason, report, diagnosis, false
-                )
-            ) : Optional.empty();
+    public static Optional<Anamnesis> getInstance(Patient patient, String reason, String report, String diagnosis) {
+        return (patient != null && reason != null && report != null && diagnosis != null) 
+            ? Optional.of(new Anamnesis(patient, reason, report, diagnosis, false)) 
+            : Optional.empty();
     }
 
     public long getId() {
