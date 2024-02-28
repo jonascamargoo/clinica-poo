@@ -1,6 +1,7 @@
 package Model;
 
 import java.util.Date;
+import java.util.Optional;
 
 import enums.Sex;
 
@@ -10,34 +11,26 @@ public class Patient {
     protected String motherName;
     protected Date birthDate;
     protected Sex sex;
-    protected Endereco address;
+    protected Address address;
     protected String phoneNumber;
     protected long numCNS;
 
-    protected Patient(String name, String motherName, Date birthDate, Sex sex, Endereco address, String phoneNumber, boolean isCopy) {
+    protected Patient(
+            String name, String motherName, Date birthDate, 
+            Sex sex, Address address, String phoneNumber, 
+            boolean isCopy
+        ) {
         this.name = name;
         this.motherName = motherName;
         this.birthDate = birthDate;
-        switch (sex.getSexo()) {
-            case "m":
-                this.sex = Sex.MALE;
-                break;
-            case "f":
-                this.sex = Sex.FEMALE;
-                break;
-            case "i":
-                this.sex = Sex.INTERSEX;
-                break;
-            default:
-                break;
-        }
+        this.sex = sex;
         this.address = address;
         this.phoneNumber = phoneNumber;
-        if (!isCopy) {
-            this.numCNS = id;
-            id++;
-        }
-
+        assignNumCNS(isCopy);   
+    }
+    
+    private void assignNumCNS(boolean isCopy) {
+        this.numCNS = isCopy ? this.numCNS : id++;
     }
 
     public void setId(long id) {
@@ -49,21 +42,30 @@ public class Patient {
     }
 
     public Patient(Patient p) {
-        this(p.name, p.motherName, new Date(p.birthDate.getTime()), Sex.valueOf(p.getSex().toString()),
-                new Endereco(p.address), p.phoneNumber, true);
-
+        this(
+            p.name, p.motherName, 
+            new Date(p.birthDate.getTime()), 
+            Sex.valueOf(p.getSex().toString()),
+            new Address(p.address), 
+            p.phoneNumber, true
+        );
         long cns = p.getNumCNS();
         this.setId(cns);
     }
 
-    public static Patient getInstance(String name, String motherName, Date birthDate, Sex sex, Endereco address,
-            String phoneNumber) {
-        if (name != null && motherName != null && birthDate != null && sex != null && address != null
-                && phoneNumber != null) {
-            return new Patient(name, motherName, birthDate, sex, address, phoneNumber, false);
-        }
-        return null;
+
+    public static Optional<Patient> getInstance(
+            String name, String motherName, Date birthDate, 
+            Sex sex, Address address, String phoneNumber
+        ) {
+        return (
+            name != null && motherName != null && 
+            birthDate != null && sex != null && 
+            address != null && phoneNumber != null
+        ) ? Optional.of(new Patient(name, motherName, birthDate, sex, address, phoneNumber, false)
+        ) : Optional.empty();
     }
+
 
     public long getNumCNS() {
         return this.numCNS;
@@ -85,7 +87,7 @@ public class Patient {
         return this.sex;
     }
 
-    public Endereco getAddress() {
+    public Address getAddress() {
         return this.address;
     }
 
@@ -93,7 +95,7 @@ public class Patient {
         return this.phoneNumber;
     }
 
-    public void add(Endereco e) {
+    public void add(Address e) {
         this.address = e;
     }
 

@@ -20,7 +20,7 @@ public class PatientWithDisability extends Patient {
 
     public PatientWithDisability(PatientWithDisability patient) {
         super(patient.getName(), patient.getMotherName(), new Date(patient.getBirthDate().getTime()),
-                patient.getSex(), new Endereco(patient.getAddress()), patient.getPhoneNumber(), true);
+                patient.getSex(), new Address(patient.getAddress()), patient.getPhoneNumber(), true);
 
         long cns = patient.getNumCNS();
         this.setId(cns);
@@ -28,7 +28,7 @@ public class PatientWithDisability extends Patient {
         this.complicatingFactor = patient.complicatingFactor;
     }
 
-    private PatientWithDisability(String name, String motherName, Date birthDate, Sex sex, Endereco address,
+    private PatientWithDisability(String name, String motherName, Date birthDate, Sex sex, Address address,
             String phoneNumber, Disability disability, String complicatingFactor, boolean isCopy) {
         super(name, motherName, birthDate, sex, address, phoneNumber, isCopy);
         this.disability = disability;
@@ -36,7 +36,7 @@ public class PatientWithDisability extends Patient {
     }
 
     public static Optional<PatientWithDisability> getInstance(String name, String motherName, Date birthDate, Sex sex,
-            Endereco address, String phoneNumber, Disability disability, String complicatingFactor) {
+            Address address, String phoneNumber, Disability disability, String complicatingFactor) {
         if (!(name != null && motherName != null && birthDate != null && sex != null &&
                 address != null && phoneNumber != null && disability != null && complicatingFactor != null)) {
             return Optional.empty();

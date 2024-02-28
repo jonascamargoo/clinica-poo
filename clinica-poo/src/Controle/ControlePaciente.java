@@ -7,7 +7,7 @@ import java.util.List;
 
 import Model.Patient;
 import Model.Anamnese;
-import Model.Endereco;
+import Model.Address;
 import View.PacienteView;
 import enums.Sex;
 import exceptions.AlterarPacienteException;
@@ -111,7 +111,7 @@ public class ControlePaciente {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        Endereco e1 = new Endereco("labuta", "cidadeAlta", "SE", 45);
+        Address e1 = new Address("labuta", "cidadeAlta", "SE", "45");
 
         Patient p1 = Patient.getInstance("Billie", "Ollie", data, Sex.INTERSEX,
                 e1, "132459876");
@@ -128,7 +128,7 @@ public class ControlePaciente {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        Endereco e2 = new Endereco("labuta", "cidadeAlta", "SP", 25);
+        Address e2 = new Address("labuta", "cidadeAlta", "SP", "25");
 
         Patient p2 = Patient.getInstance("Joe", "maeJoe", data, Sex.FEMALE, e2,
                 "159423687");
@@ -147,7 +147,7 @@ public class ControlePaciente {
             e.printStackTrace();
         }
 
-        Endereco e3 = new Endereco("labuta", "cidadeAlta", "PA", 25);
+        Address e3 = new Address("labuta", "cidadeAlta", "PA", "25");
 
         Patient p3 = Patient.getInstance("Joanne", "maeJoane", data, Sex.FEMALE,
                 e3,
@@ -167,7 +167,7 @@ public class ControlePaciente {
             e.printStackTrace();
         }
 
-        Endereco e4 = new Endereco("labuta", "cidadeAlta", "MA", 25);
+        Address e4 = new Address("labuta", "cidadeAlta", "MA", "25");
 
         Patient p4 = Patient.getInstance("Kayne", "maeKayne", data, Sex.FEMALE,
                 e4,
@@ -187,7 +187,7 @@ public class ControlePaciente {
             e.printStackTrace();
         }
 
-        Endereco e5 = new Endereco("labuta", "cidadeAlta", "MG", 25);
+        Address e5 = new Address("labuta", "cidadeAlta", "MG", "25");
         Patient p5 = Patient.getInstance("Kayne", "maeJoao", data, Sex.FEMALE,
                 e5,
                 "12345678");

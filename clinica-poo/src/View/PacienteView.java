@@ -7,7 +7,7 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-import Model.Endereco;
+import Model.Address;
 import Model.Patient;
 import Model.PatientWithDisability;
 import enums.Disability;
@@ -97,7 +97,7 @@ public class PacienteView {
                     sex = Sex.INTERSEX;
             }
         } while (s != 'M' && s != 'm' && s != 'f' && s != 'F' && s != 'i' && s != 'I');
-        Endereco endereco = lerEndereco();
+        Address endereco = lerEndereco();
 
         System.out.print("Telefone: ");
         String telefone = scn.next();
@@ -180,7 +180,7 @@ public class PacienteView {
         return p;
     }
 
-    public Endereco lerEndereco() {
+    public Address lerEndereco() {
         boolean controller = true;
         String logradouro, cidade, uf;
         int numero = 0;
@@ -202,7 +202,7 @@ public class PacienteView {
         }
         System.out.print("UF: ");
         uf = scn.next();
-        return new Endereco(logradouro, cidade, uf, numero);
+        return new Address(logradouro, cidade, uf, numero);
     }
 
 }
