@@ -2,7 +2,7 @@ package Controle;
 
 import java.util.List;
 
-import Model.Anamnese;
+import Model.Anamnesis;
 import Model.Patient;
 import View.AnamneseView;
 import exceptions.AnamneseInvalidaException;
@@ -25,7 +25,7 @@ public class ControleAnamnese {
 	}
 
     public void add() {
-        Anamnese a = anamneseView.lerAnamnese();
+        Anamnesis a = anamneseView.lerAnamnese();
         try {
             repoAnamnese.add(a);
         } catch (AnamneseInvalidaException e) {
@@ -35,7 +35,7 @@ public class ControleAnamnese {
     }
 
     public void alterar() {
-        Anamnese aNova = anamneseView.lerAnamnese();
+        Anamnesis aNova = anamneseView.lerAnamnese();
         long id = aNova.getId();
         try {
             repoAnamnese.alterar(aNova, id);
@@ -45,7 +45,7 @@ public class ControleAnamnese {
         
     }
 
-    public List<Anamnese> listarAnamneses() {
+    public List<Anamnesis> listarAnamneses() {
         return repoAnamnese.listar();
     }
 
@@ -56,7 +56,7 @@ public class ControleAnamnese {
         return false;
     }
 
-    public Anamnese buscarAnamnese() {
+    public Anamnesis buscarAnamnese() {
         //preciso
         long id = anamneseView.recebeId();
         anamneseView.listarApenasUmaA(repoAnamnese.buscar(id));
@@ -79,7 +79,7 @@ public class ControleAnamnese {
         // ANAMNESES
         // Anamnese 1
         
-        Anamnese a1 = Anamnese.getInstance(p1, "dor no ouvido", "ouvindo tava doendo", "problema de ouvido");
+        Anamnesis a1 = Anamnesis.getInstance(p1, "dor no ouvido", "ouvindo tava doendo", "problema de ouvido");
         try {
             repoAnamnese.add(a1);
         } catch (AnamneseInvalidaException e) {
@@ -88,7 +88,7 @@ public class ControleAnamnese {
         }
         // Anamnese 2
         Patient p2 = controlePaciente.findByCNS(02);
-        Anamnese a2 = Anamnese.getInstance(p2, "dor no olho", "olho tava doendo demais", "problema nos olhos");
+        Anamnesis a2 = Anamnesis.getInstance(p2, "dor no olho", "olho tava doendo demais", "problema nos olhos");
         try {
             repoAnamnese.add(a2);
         } catch (AnamneseInvalidaException e) {
@@ -98,7 +98,7 @@ public class ControleAnamnese {
         
         // Anamnese 3
         Patient p3 = controlePaciente.findByCNS(03);
-        Anamnese a3 = Anamnese.getInstance(p3, "dor na garganta", "garganta tava doendo demais",
+        Anamnesis a3 = Anamnesis.getInstance(p3, "dor na garganta", "garganta tava doendo demais",
         "problema na garganta");
         try {
             repoAnamnese.add(a3);

@@ -3,7 +3,7 @@ package repositories;
 import java.util.ArrayList;
 import java.util.List;
 
-import Model.Anamnese;
+import Model.Anamnesis;
 import Model.Patient;
 import Model.PatientWithDisability;
 import exceptions.AlterarPacienteException;
@@ -12,7 +12,7 @@ import exceptions.PacienteInvalidoException;
 
 public class RepositorioPacienteList implements IRepositorioPaciente {
     private List<Patient> pacientes;
-    private List<Anamnese> anamneses;
+    private List<Anamnesis> anamneses;
     private long proxId;
 
     private static RepositorioPacienteList repositorioPacienteList;
@@ -132,7 +132,7 @@ public class RepositorioPacienteList implements IRepositorioPaciente {
     public boolean pacienteAtreladoAnamnese(long id) {
         if (existePaciente(id) && existeAnamnese(id)) {
             Patient p = findByCNS(id);
-            Anamnese a = buscaAnamnese(id);
+            Anamnesis a = buscaAnamnese(id);
             if (a.getPaciente() == p) {
                 return true;
             }
@@ -149,8 +149,8 @@ public class RepositorioPacienteList implements IRepositorioPaciente {
         return null;
     }
 
-    public Anamnese buscaAnamnese(long id) {
-        for (Anamnese anamnese : anamneses) {
+    public Anamnesis buscaAnamnese(long id) {
+        for (Anamnesis anamnese : anamneses) {
             if (anamnese.getId() == id) {
                 return anamnese;
             }
@@ -160,7 +160,7 @@ public class RepositorioPacienteList implements IRepositorioPaciente {
     }
 
     public boolean existeAnamnese(long id) {
-        for (Anamnese anamnese : anamneses) {
+        for (Anamnesis anamnese : anamneses) {
             if (anamnese.getId() == id) {
                 return true;
             }

@@ -4,7 +4,7 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-import Model.Anamnese;
+import Model.Anamnesis;
 import Model.Patient;
 import repositories.RepositorioPacienteList;
 
@@ -38,7 +38,7 @@ public class AnamneseView {
         return nomeMae;
     }
 
-    public Anamnese lerAnamnese() {
+    public Anamnesis lerAnamnese() {
         
         long cns;
         System.out.print("Digite o num do CNS: ");
@@ -79,14 +79,14 @@ public class AnamneseView {
         } catch (InputMismatchException e) {
             System.out.println("Por favor, dê um diagnóstico válido");
         }
-        Anamnese a = Anamnese.getInstance(p, motivo, relato, diagnostico);
+        Anamnesis a = Anamnesis.getInstance(p, motivo, relato, diagnostico);
         
         
         return a;
     }
     
 
-    public void listarApenasUmaA(Anamnese a) {
+    public void listarApenasUmaA(Anamnesis a) {
         System.out.printf("%7s%15s%25s%30s%30s%30s", "ID", "PACIENTE", "MÃE DO PACIENTE", "MOTIVO", "RELATO",
         "DIAGNOSTICO\n");
         System.out.printf("%7s%15s%25s%30s%30s%30s", a.getId(), a.getPaciente().getName(),
@@ -95,10 +95,10 @@ public class AnamneseView {
 
     }
 
-    public void listarAnamneses(List<Anamnese> anamneses) {
+    public void listarAnamneses(List<Anamnesis> anamneses) {
         System.out.printf("%7s%15s%25s%30s%30s%30s", "ID", "PACIENTE", "MÃE DO PACIENTE", "MOTIVO", "RELATO",
                 "DIAGNOSTICO\n");
-        for (Anamnese anamnese : anamneses) {
+        for (Anamnesis anamnese : anamneses) {
             System.out.printf("%7s%15s%25s%30s%30s%30s", anamnese.getId(), anamnese.getPaciente().getName(),
                     anamnese.getPaciente().getNomeMae(), anamnese.getMotivo(), anamnese.getRelato(),
                     anamnese.getDiagnostico() + "\n");

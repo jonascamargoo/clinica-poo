@@ -6,6 +6,20 @@ public class Address {
     private String state;
     private String number;
 
+    public Address(String street, String city, String state, String number) {
+        this.street = street;
+        this.city = city;
+        this.state = state;
+        this.number = number;
+    }
+
+    public Address(Address other) {
+        this.street = other.street;
+        this.city = other.city;
+        this.state = other.state;
+        this.number = other.number;
+    }
+
     public String getStreet() {
         return this.street;
     }
@@ -22,17 +36,4 @@ public class Address {
         return this.number;
     }
 
-    public Address(String street, String city, String state, String number) {
-        this.street = street;
-        this.city = city;
-        this.state = state;
-        this.number = number;
-    };
-
-    public Address(Address other) {
-        this.street = other.street;
-        this.city = other.city;
-        this.state = other.state;
-        this.number = other.number;
-    }
 }

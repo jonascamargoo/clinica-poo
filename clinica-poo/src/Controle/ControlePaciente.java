@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import Model.Patient;
-import Model.Anamnese;
+import Model.Anamnesis;
 import Model.Address;
 import View.PacienteView;
 import enums.Sex;
@@ -21,7 +21,7 @@ public class ControlePaciente {
     private PacienteView pacienteView;
     private IRepositorioPaciente repoPaciente;
     private IRepositorioAnamnese repoAnamnese;
-    private List<Anamnese> anamneses;
+    private List<Anamnesis> anamneses;
 
     public ControlePaciente(IRepositorioPaciente repoPaciente) {
         pacienteView = new PacienteView();
@@ -67,7 +67,7 @@ public class ControlePaciente {
     public boolean pacienteAtreladoAnamnese(long id) {
         if (existePaciente(id) && existeAnamnese(id)) {
             Patient p = findByCNS(id);
-            Anamnese a = buscaAnamnese(id);
+            Anamnesis a = buscaAnamnese(id);
             if (a.getPaciente() == p) {
                 return true;
             }
@@ -82,7 +82,7 @@ public class ControlePaciente {
         return false;
     }
 
-    public Anamnese buscaAnamnese(long id) {
+    public Anamnesis buscaAnamnese(long id) {
         return repoPaciente.buscaAnamnese(id);
     }
 
