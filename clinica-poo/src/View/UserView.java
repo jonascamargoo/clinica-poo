@@ -7,70 +7,64 @@ import java.util.Scanner;
 import Model.User;
 import enums.Type;
 
-public class UsuarioView {
+public class UserView {
     private Scanner scn;
 
-    public UsuarioView() {
+    public UserView() {
         scn = new Scanner(System.in);
     }
 
-    public User lerUsuario() {
+    public User userRead() {
         System.out.print("Nome: ");
-        String nome = scn.next();
-        nome += scn.nextLine();
+        String name = scn.next();
+        name += scn.nextLine();
         System.out.print("Nome Login: ");
-        String nomeLogin = scn.next();
-        nome += scn.nextLine();
+        String loginName = scn.next();
+        name += scn.nextLine();
         System.out.print("Senha: ");
-        String senha = scn.next();
-        senha += scn.nextLine();
-        Type tipo = Type.UNDEFINED;
-        boolean controller = true;
-        while (controller) {
+        String password = scn.next();
+        password += scn.nextLine();
+        Type type = Type.UNDEFINED;
+        boolean control = true;
+        while (control) {
             System.out.print("Tipo: ");
             try {
-                String tipoString = scn.next();
-                tipoString += scn.nextLine();
-                String tipoStringUpper = tipoString.toUpperCase();
-                if (tipoStringUpper.equals("ASSISTENTE")) {
-                    tipo = Type.ASSISTANT;
+                String typeString = scn.next();
+                typeString += scn.nextLine();
+                String typeStringUpper = typeString.toUpperCase();
+                if (typeStringUpper.equals("ASSISTENTE")) {
+                    type = Type.ASSISTANT;
                 }
-                if (tipoStringUpper.equals("MEDICO")) {
-                    tipo = Type.DOCTOR;
+                if (typeStringUpper.equals("MEDICO")) {
+                    type = Type.DOCTOR;
                 }
 
-                controller = false;
+                control = false;
             } catch (InputMismatchException i) {
                 System.out.println("Número não deve ser String");
                 scn.nextLine();
             }
         }
-        // User u = User.getInstance(nome, nomeLogin, senha, tipo);
-        User u = User.getInstance(nome, nomeLogin, senha, tipo).orElseThrow();
-        return u;
-
-        // public Place getPlaceById(UUID id) {
-        //     return placeRepository.findById(id).orElseThrow(PlaceNotFoundException::new);
-        // }
-
+        User user = User.getInstance(name, loginName, password, type).orElseThrow();
+        return user;
     }
 
-    public String[] lerUsuario(boolean autentica) {
-        String[] dados = new String[2];
+    public String[] userRead(boolean autentica) {
+        String[] data = new String[2];
         System.out.print("Nome Login: ");
-        String nomeLogin = scn.next();
-        nomeLogin += scn.nextLine();
-        dados[0] = nomeLogin;
+        String loginName = scn.next();
+        loginName += scn.nextLine();
+        data[0] = loginName;
         System.out.print("Senha: ");
-        String senha = scn.next();
-        senha += scn.nextLine();
-        dados[1] = senha;
+        String password = scn.next();
+        password += scn.nextLine();
+        data[1] = password;
 
-        return dados;
+        return data;
 
     }
 
-    public long excluirUsuario() {
+    public long userDelete() {
         long id = -1;
         System.out.println("Exclusão: Qual o id do usuário?");
         try {
@@ -83,7 +77,7 @@ public class UsuarioView {
         return id;
     }
 
-    public User alterarUsuario() {
+    public User userUpdate() {
         System.out.print("Alteração - Num. ID: ");
         long idUsuarioAntigo = 0;
         try {
@@ -93,12 +87,12 @@ public class UsuarioView {
             scn.nextLine();
             System.out.println("Num. ID inválido, tente novamente");
         }
-        User uNovo = lerUsuario();
+        User uNovo = userRead();
         uNovo.setId(idUsuarioAntigo);
         return uNovo;
     }
 
-    public void listarUsuario(List<User> usuarios) {
+    public void userList(List<User> usuarios) {
         System.out.println();
         System.out.printf("%7s%15s%12s", "ID", "NOME", "TIPO\n");
         for (User usuario : usuarios) {

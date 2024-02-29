@@ -6,11 +6,12 @@ import java.util.Scanner;
 
 import Model.Anamnesis;
 import Model.Patient;
-import repositories.RepositorioPacienteList;
+import repositories.IPatient;
+import repositories.PatientRepository;
 
 public class AnamneseView {
 
-    private RepositorioPacienteList repositorioPacienteList = RepositorioPacienteList.getInstance();
+    private IPatient patientRepository = PatientRepository.getInstance();
 
     public AnamneseView() {
 		scn = new Scanner(System.in);
@@ -20,29 +21,26 @@ public class AnamneseView {
     private MenuView menuView;
 
 
-    public long recebeId() {
+    public long inputId() {
         System.out.println("ID: ");
         long id = scn.nextLong();
         return id;
     }
 
-    public String recebeNome() {
+    public String inputName() {
         System.out.print("Nome: ");
-        String nome = scn.next();
-        return nome;
+        return scn.next();
     }
 
-    public String recebeNomeMae() {
+    public String inputMotherName() {
         System.out.print("Nome da mãe: ");
-        String nomeMae = scn.next();
-        return nomeMae;
+        return scn.next();
     }
 
-    public Anamnesis lerAnamnese() {
-        
+    public Anamnesis readAnamnesis() {
         long cns;
         System.out.print("Digite o num do CNS: ");
-        String motivo = "", relato = "", diagnostico = "";
+        String reason = "", report = "", diagnostico = "";
         try {
             cns = scn.nextLong();
         } catch (InputMismatchException e) {
@@ -50,13 +48,13 @@ public class AnamneseView {
             scn.nextLine();
             return null;
         }
-        Patient p = repositorioPacienteList.findByCNS(cns);
+        Patient patient = patientRepository.findByCNS(cns);
         
 
         System.out.print("Motivo: ");
         try {
-            motivo = scn.next();
-            motivo += scn.nextLine();
+            reason = scn.next();
+            reason += scn.nextLine();
 
         } catch (InputMismatchException e) {
             System.out.println("Por favor, digite o motivo");
@@ -64,8 +62,8 @@ public class AnamneseView {
 
         System.out.print("Relato: ");
         try {
-            relato = scn.next();
-            relato += scn.nextLine();
+            report = scn.next();
+            report += scn.nextLine();
         } catch (InputMismatchException e) {
             System.out.println("Por favor, digite o relato do paciente");
         }
@@ -79,19 +77,17 @@ public class AnamneseView {
         } catch (InputMismatchException e) {
             System.out.println("Por favor, dê um diagnóstico válido");
         }
-        Anamnesis a = Anamnesis.getInstance(p, motivo, relato, diagnostico);
-        
-        
-        return a;
+        Anamnesis anamnesis = Anamnesis.getInstance(patient, reason, report, diagnostico).get();
+        return anamnesis;
     }
     
 
     public void listarApenasUmaA(Anamnesis a) {
         System.out.printf("%7s%15s%25s%30s%30s%30s", "ID", "PACIENTE", "MÃE DO PACIENTE", "MOTIVO", "RELATO",
         "DIAGNOSTICO\n");
-        System.out.printf("%7s%15s%25s%30s%30s%30s", a.getId(), a.getPaciente().getName(),
-                    a.getPaciente().getNomeMae(), a.getMotivo(), a.getRelato(),
-                    a.getDiagnostico() + "\n");
+        System.out.printf("%7s%15s%25s%30s%30s%30s", a.getId(), a.getPatient().getName(),
+                    a.getPatient().getMotherName(), a.getReason(), a.getReport(),
+                    a.getDiagnosis() + "\n");
 
     }
 
@@ -99,29 +95,17 @@ public class AnamneseView {
         System.out.printf("%7s%15s%25s%30s%30s%30s", "ID", "PACIENTE", "MÃE DO PACIENTE", "MOTIVO", "RELATO",
                 "DIAGNOSTICO\n");
         for (Anamnesis anamnese : anamneses) {
-            System.out.printf("%7s%15s%25s%30s%30s%30s", anamnese.getId(), anamnese.getPaciente().getName(),
-                    anamnese.getPaciente().getNomeMae(), anamnese.getMotivo(), anamnese.getRelato(),
-                    anamnese.getDiagnostico() + "\n");
+            System.out.printf("%7s%15s%25s%30s%30s%30s", anamnese.getId(), anamnese.getPatient().getName(),
+                    anamnese.getPatient().getMotherName(), anamnese.getReason(), anamnese.getReport(),
+                    anamnese.getDiagnosis() + "\n");
         }
         System.out.println("\n");
     }
 
 
-    public long recebeCNS() {
+    public long inputCNS() {
         System.out.println("Digite o cns");
-        long cns = scn.nextLong();
-        return cns;
-    }
-
-    public Patient findByCNS(List<Patient> pacientes, long cns) {
-        for (int i = 0; i < pacientes.size(); i++) {
-            if (pacientes.get(i) != null) {
-                if (pacientes.get(i).getNumCNS() == cns) {
-                    return pacientes.get(i);
-                }
-            }
-        }
-        return null;
+        return scn.nextLong();
     }
 
     

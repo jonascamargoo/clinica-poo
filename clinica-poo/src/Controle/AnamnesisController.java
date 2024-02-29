@@ -8,37 +8,34 @@ import View.AnamneseView;
 import exceptions.AnamneseInvalidaException;
 import exceptions.AnamneseNaoEncontradaException;
 import repositories.IAnamnesis;
-import repositories.IRepositorioPaciente;
-import repositories.RepositorioPacienteList;
+import repositories.PatientRepository;
 
-public class ControleAnamnese {
+public class AnamnesisController {
     private AnamneseView anamneseView;
-    private IRepositorioPaciente repositorioPaciente;
-    private IAnamnesis repoAnamnese;
+    private IAnamnesis anaminesisRepository;
     
 
-    public ControleAnamnese(IAnamnesis repoAnamnese) {
+    public AnamnesisController(IAnamnesis anaminesisRepository) {
 		anamneseView = new AnamneseView();
-		this.repoAnamnese = repoAnamnese;
+		this.anaminesisRepository = anaminesisRepository;
         this.init();
         
 	}
 
     public void add() {
-        Anamnesis a = anamneseView.lerAnamnese();
+        Anamnesis anamnesis = anamneseView.readAnamnesis();
         try {
-            repoAnamnese.add(a);
+            anaminesisRepository.add(anamnesis);
         } catch (AnamneseInvalidaException e) {
             e.printStackTrace();
         }
-        
     }
 
     public void alterar() {
-        Anamnesis aNova = anamneseView.lerAnamnese();
+        Anamnesis aNova = anamneseView.readAnamnesis();
         long id = aNova.getId();
         try {
-            repoAnamnese.alterar(aNova, id);
+            anaminesisRepository.update(aNova, id);
         } catch (AnamneseNaoEncontradaException e) {
             e.printStackTrace();
         }
@@ -46,11 +43,11 @@ public class ControleAnamnese {
     }
 
     public List<Anamnesis> listarAnamneses() {
-        return repoAnamnese.listar();
+        return anaminesisRepository.list();
     }
 
     public boolean existeAnamnese(long id) {
-        if(repoAnamnese.existeAnamnese(id)) {
+        if(anaminesisRepository.anamnesisExists(id)) {
             return true;
         }
         return false;
@@ -58,39 +55,39 @@ public class ControleAnamnese {
 
     public Anamnesis buscarAnamnese() {
         //preciso
-        long id = anamneseView.recebeId();
-        anamneseView.listarApenasUmaA(repoAnamnese.buscar(id));
+        long id = anamneseView.inputId();
+        anamneseView.listarApenasUmaA(anaminesisRepository.findById(id));
         return null;
         
         
     }
 
     public boolean existeHomonimo(String nome) {
-        if(repoAnamnese.existeHomonimo(nome)) {
+        if(anaminesisRepository.homonymExists(nome)) {
             return true;
         }
         return false;
     }
 
     public void init() {
-        RepositorioPacienteList repositorioPacienteList = RepositorioPacienteList.getInstance();
-        ControlePaciente controlePaciente = new ControlePaciente(repositorioPacienteList);
+        PatientRepository patientRepository = PatientRepository.getInstance();
+        PatientController controlePaciente = new PatientController(patientRepository);
         Patient p1 = controlePaciente.findByCNS(01);
         // ANAMNESES
         // Anamnese 1
         
-        Anamnesis a1 = Anamnesis.getInstance(p1, "dor no ouvido", "ouvindo tava doendo", "problema de ouvido");
+        Anamnesis a1 = Anamnesis.getInstance(p1, "dor no ouvido", "ouvindo tava doendo", "problema de ouvido").get();
         try {
-            repoAnamnese.add(a1);
+            anaminesisRepository.add(a1);
         } catch (AnamneseInvalidaException e) {
             
             e.printStackTrace();
         }
         // Anamnese 2
         Patient p2 = controlePaciente.findByCNS(02);
-        Anamnesis a2 = Anamnesis.getInstance(p2, "dor no olho", "olho tava doendo demais", "problema nos olhos");
+        Anamnesis a2 = Anamnesis.getInstance(p2, "dor no olho", "olho tava doendo demais", "problema nos olhos").get();
         try {
-            repoAnamnese.add(a2);
+            anaminesisRepository.add(a2);
         } catch (AnamneseInvalidaException e) {
             
             e.printStackTrace();
@@ -99,9 +96,9 @@ public class ControleAnamnese {
         // Anamnese 3
         Patient p3 = controlePaciente.findByCNS(03);
         Anamnesis a3 = Anamnesis.getInstance(p3, "dor na garganta", "garganta tava doendo demais",
-        "problema na garganta");
+        "problema na garganta").get();
         try {
-            repoAnamnese.add(a3);
+            anaminesisRepository.add(a3);
         } catch (AnamneseInvalidaException e) {
             
             e.printStackTrace();

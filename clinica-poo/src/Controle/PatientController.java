@@ -8,98 +8,89 @@ import java.util.List;
 import Model.Patient;
 import Model.Anamnesis;
 import Model.Address;
-import View.PacienteView;
+import View.PatientView;
 import enums.Sex;
 import exceptions.AlterarPacienteException;
 import exceptions.ExcluirPacienteException;
 import exceptions.PacienteInvalidoException;
-import repositories.IAnamnesis;
-import repositories.IRepositorioPaciente;
+import repositories.IPatient;
 
-public class ControlePaciente {
-    private List<Patient> pacientes;
-    private PacienteView pacienteView;
-    private IRepositorioPaciente repoPaciente;
-    private IAnamnesis repoAnamnese;
-    private List<Anamnesis> anamneses;
+// As exception devem ser tratadas em repository
+public class PatientController {
+    private PatientView pacienteView;
+    private IPatient patientRepository;
 
-    public ControlePaciente(IRepositorioPaciente repoPaciente) {
-        pacienteView = new PacienteView();
-        this.repoPaciente = repoPaciente;
+
+    public PatientController(IPatient patientRepository) {
+        pacienteView = new PatientView();
+        this.patientRepository = patientRepository;
         this.init();
     }
 
     public void add() {
-        Patient p = pacienteView.lerPaciente();
+        Patient p = pacienteView.patientRead();
         try {
-            repoPaciente.add(p);
+            patientRepository.add(p);
         } catch (PacienteInvalidoException e) {
             e.printStackTrace();
         }
     }
 
+    // NAO TRATAR AQUI, TRATAR EM REPOSITORY
     public void excluir() {
-        long numCNS = pacienteView.excluirPaciente();
+        long numCNS = pacienteView.patientDelete();
         try {
-            repoPaciente.excluir(numCNS);
+            patientRepository.delete(numCNS);
         } catch (ExcluirPacienteException e) {
             e.printStackTrace();
         }
     }
 
     public List<Patient> listar() {
-        return repoPaciente.listar();
+        return patientRepository.list();
     }
 
     public void alterar() {
-        Patient pAlterado = pacienteView.alterarPaciente();
+        Patient updatedPatient = pacienteView.patientUpdate();
         try {
-            repoPaciente.alterar(pAlterado);
+            patientRepository.update(updatedPatient);
         } catch (AlterarPacienteException e) {
             e.printStackTrace();
         }
     }
 
     public Patient findByCNS(long cns) {
-        return repoPaciente.findByCNS(cns);
+        return patientRepository.findByCNS(cns);
     }
 
-    public boolean pacienteAtreladoAnamnese(long id) {
-        if (existePaciente(id) && existeAnamnese(id)) {
-            Patient p = findByCNS(id);
-            Anamnesis a = buscaAnamnese(id);
-            if (a.getPaciente() == p) {
-                return true;
-            }
-        }
-        return false;
-    }
+    // public boolean pacienteAtreladoAnamnese(long id) {
+    //     if (existePaciente(id) && existeAnamnese(id)) {
+    //         Patient p = findByCNS(id);
+    //         Anamnesis a = buscaAnamnese(id);
+    //         if (a.getPatient() == p) {
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
 
-    public boolean existeAnamnese(long id) {
-        if (repoPaciente.pacienteAtreladoAnamnese(id)) {
-            return true;
-        }
-        return false;
-    }
+    // public boolean existeAnamnese(long id) {
+    //     if (patientRepository.isPatientLinkedToAnamnesis(id)) {
+    //         return true;
+    //     }
+    //     return false;
+    // }
 
     public Anamnesis buscaAnamnese(long id) {
-        return repoPaciente.buscaAnamnese(id);
+        return patientRepository.findAnamnesis(id);
     }
 
     public boolean existePaciente(long cns) {
-        if (repoPaciente.existePaciente(cns)) {
-            return true;
-        }
-        return false;
+        return patientRepository.patientExists(cns);
     }
 
     public Patient findByName(String nome) {
-        for (Patient paciente : pacientes) {
-            if (paciente.getName().equals(nome)) {
-                return paciente;
-            }
-        }
-        return null;
+        return patientRepository.findByName(nome);
     }
 
     public void init() {
@@ -114,9 +105,9 @@ public class ControlePaciente {
         Address e1 = new Address("labuta", "cidadeAlta", "SE", "45");
 
         Patient p1 = Patient.getInstance("Billie", "Ollie", data, Sex.INTERSEX,
-                e1, "132459876");
+                e1, "132459876").get();
         try {
-            repoPaciente.add(p1);
+            patientRepository.add(p1);
         } catch (PacienteInvalidoException e6) {
             e6.printStackTrace();
         }
@@ -131,10 +122,10 @@ public class ControlePaciente {
         Address e2 = new Address("labuta", "cidadeAlta", "SP", "25");
 
         Patient p2 = Patient.getInstance("Joe", "maeJoe", data, Sex.FEMALE, e2,
-                "159423687");
+                "159423687").get();
 
         try {
-            repoPaciente.add(p2);
+            patientRepository.add(p2);
         } catch (PacienteInvalidoException e6) {
             e6.printStackTrace();
         }
@@ -151,10 +142,10 @@ public class ControlePaciente {
 
         Patient p3 = Patient.getInstance("Joanne", "maeJoane", data, Sex.FEMALE,
                 e3,
-                "132459876");
-        p3.add(e3);
+                "132459876").get();
+        p3.setAddress(e3);
         try {
-            repoPaciente.add(p3);
+            patientRepository.add(p3);
         } catch (PacienteInvalidoException e6) {
             e6.printStackTrace();
         }
@@ -171,10 +162,10 @@ public class ControlePaciente {
 
         Patient p4 = Patient.getInstance("Kayne", "maeKayne", data, Sex.FEMALE,
                 e4,
-                "987465321");
+                "987465321").get();
 
         try {
-            repoPaciente.add(p4);
+            patientRepository.add(p4);
         } catch (PacienteInvalidoException e6) {
             e6.printStackTrace();
         }
@@ -190,9 +181,9 @@ public class ControlePaciente {
         Address e5 = new Address("labuta", "cidadeAlta", "MG", "25");
         Patient p5 = Patient.getInstance("Kayne", "maeJoao", data, Sex.FEMALE,
                 e5,
-                "12345678");
+                "12345678").get();
         try {
-            repoPaciente.add(p5);
+            patientRepository.add(p5);
         } catch (PacienteInvalidoException e) {
             e.printStackTrace();
         }

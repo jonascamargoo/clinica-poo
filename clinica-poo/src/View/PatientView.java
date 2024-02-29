@@ -12,75 +12,69 @@ import Model.Patient;
 import Model.PatientWithDisability;
 import enums.Disability;
 import enums.Sex;
-import repositories.IRepositorioPaciente;
 
-public class PacienteView {
-
-    private IRepositorioPaciente repoPaciente;
+public class PatientView {
     Scanner scn = new Scanner(System.in);
-    // ControlePaciente controlePaciente = new ControlePaciente(repoPaciente);
-    private MenuView menuView;
 
-    public void listarPacientes(List<Patient> pacientes) {
+    public void patientList(List<Patient> Patients) {
         System.out.println("\n");
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
         System.out.printf("%7s%12s%15s%15s%15s%15s%15s\n", "NUM_CNS", "SEXO", "DATA_NASC", "NOME", "NOME_MÃE",
                 "TELEFONE", "DEFICIENCIA\n");
 
-        for (int i = 0; i < pacientes.size(); i++) {
-            if (pacientes.get(i) instanceof PatientWithDisability) {
-                PatientWithDisability p = (PatientWithDisability) pacientes.get(i);
+        for (int i = 0; i < Patients.size(); i++) {
+            if (Patients.get(i) instanceof PatientWithDisability) {
+                PatientWithDisability p = (PatientWithDisability) Patients.get(i);
                 System.out.printf("%7s%12s%15s%15s%15s%15s%15s\n", p.getNumCNS(), p.getSex(),
-                        sdf.format(p.getDataNasc()), p.getName(), p.getNomeMae(),
-                        p.getTelefone(), p.getTipo() + "\n");
+                        sdf.format(p.getBirthDate()), p.getName(), p.getMotherName(),
+                        p.getPhoneNumber() + "\n");
             } else {
-                System.out.printf("%7s%12s%15s%15s%15s%15s\n", pacientes.get(i).getNumCNS(), pacientes.get(i).getSex(),
-                        sdf.format(pacientes.get(i).getDataNasc()), pacientes.get(i).getName(),
-                        pacientes.get(i).getNomeMae(),
-                        pacientes.get(i).getTelefone() + "\n");
+                System.out.printf("%7s%12s%15s%15s%15s%15s\n", Patients.get(i).getNumCNS(), Patients.get(i).getSex(),
+                        sdf.format(Patients.get(i).getBirthDate()), Patients.get(i).getName(),
+                        Patients.get(i).getMotherName(),
+                        Patients.get(i).getPhoneNumber() + "\n");
             }
         }
         System.out.println("\n");
     }
 
-    public Patient lerPaciente() {
-
-        boolean controller = true;
-        Patient p;
-        Patient pacienteComDeficiencia;
-        char s;
+    public Patient patientRead() {
+        boolean control = true;
+        Patient patient;
+        Patient patientWithDisability;
+        char sexChar;
         Sex sex;
         System.out.print("Nome: ");
-        String nome = scn.next();
-        nome += scn.nextLine();
+        String name = scn.next();
+        name += scn.nextLine();
         System.out.print("Nome da mãe: ");
-        String nomeMae = scn.next();
-        nomeMae += scn.nextLine();
-        Date d = new Date();
-        while (controller) {
+        String motherName = scn.next();
+        motherName += scn.nextLine();
+        Date date = new Date();
+        while (control) {
             System.out.print("Data de nascimento(dd/MM/yyyy): ");
-            String dataNasc = scn.next();
+            String birthDate = scn.next();
 
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             Date data2 = null;
-            d = new Date();
+            date = new Date();
             try {
-                data2 = sdf.parse(dataNasc);
-                d = data2;
-                controller = false;
+                data2 = sdf.parse(birthDate);
+                date = data2;
+                control = false;
 
             } catch (ParseException e) {
                 System.out.println("Data inválida");
             }
         }
-        controller = true;
+        control = true;
 
         do {
             System.out.print("Sexo (M/F/I): ");
-            s = scn.next().charAt(0);
+            sexChar = scn.next().charAt(0);
 
-            switch (s) {
+            switch (sexChar) {
                 case 'M':
                 case 'm':
                     sex = Sex.MALE;
@@ -96,15 +90,15 @@ public class PacienteView {
                 default:
                     sex = Sex.INTERSEX;
             }
-        } while (s != 'M' && s != 'm' && s != 'f' && s != 'F' && s != 'i' && s != 'I');
-        Address endereco = lerEndereco();
+        } while (sexChar != 'M' && sexChar != 'm' && sexChar != 'f' && sexChar != 'F' && sexChar != 'i' && sexChar != 'I');
+        Address address = addressRead();
 
         System.out.print("Telefone: ");
-        String telefone = scn.next();
+        String phoneNumber = scn.next();
 
         System.out.println("Tem deficiência? [S/N] ");
         String temDeficiencia = scn.next();
-        Disability tipoDeficiencia = Disability.OTHER;
+        Disability disability = Disability.OTHER;
         boolean PCD = false;
         if (temDeficiencia.equals("S") || temDeficiencia.equals("s") || temDeficiencia.equals("n")
                 || temDeficiencia.equals("N")) {
@@ -118,40 +112,40 @@ public class PacienteView {
                     case "mO":
                     case "Mo":
                     case "MO":
-                        tipoDeficiencia = Disability.MOTOR;
+                        disability = Disability.MOTOR;
                         break;
                     case "me":
                     case "Me":
                     case "mE":
                     case "ME":
-                        tipoDeficiencia = Disability.MENTAL;
+                        disability = Disability.MENTAL;
                         break;
                     case "v":
                     case "V":
-                        tipoDeficiencia = Disability.VISUAL;
+                        disability = Disability.VISUAL;
                         break;
                     case "o":
                     case "O":
-                        tipoDeficiencia = Disability.OTHER;
+                        disability = Disability.OTHER;
                         break;
                     default:
                         System.out.println("Criando um paciente com o tipo de deficiência OUTRO");
                         break;
                 }
                 System.out.println("Fator Complicador: ");
-                String fatorComplicador = scn.next();
-                fatorComplicador += scn.nextLine();
-                pacienteComDeficiencia = PatientWithDisability.getInstance(nome, nomeMae, d, sex, endereco, telefone,
-                        tipoDeficiencia, fatorComplicador);
-                return pacienteComDeficiencia;
+                String complicatingFactor = scn.next();
+                complicatingFactor += scn.nextLine();
+                patientWithDisability = PatientWithDisability.getInstance(name, motherName, date, sex, address, phoneNumber,
+                        disability, complicatingFactor).get();
+                return patientWithDisability;
             }
         }
-        p = Patient.getInstance(nome, nomeMae, d, sex, endereco, telefone);
-        return p;
+        patient = Patient.getInstance(name, motherName, date, sex, address, phoneNumber).get();
+        return patient;
 
     }
 
-    public long excluirPaciente() {
+    public long patientDelete() {
         long cns = -1;
         System.out.println("Exclusão: Qual o CNS do paciente? ");
         try {
@@ -163,7 +157,7 @@ public class PacienteView {
         return cns;
     }
 
-    public Patient alterarPaciente() {
+    public Patient patientUpdate() {
         System.out.print("Alteração - Num. CNS: ");
         long cns = 0;
         long id = 0;
@@ -175,15 +169,15 @@ public class PacienteView {
 
         }
 
-        Patient p = lerPaciente();
+        Patient p = patientRead();
         p.setId(cns);
         return p;
     }
 
-    public Address lerEndereco() {
+    public Address addressRead() {
         boolean controller = true;
         String logradouro, cidade, uf;
-        int numero = 0;
+        String numero = "";
         System.out.print("Logradouro: ");
         logradouro = scn.next();
         logradouro += scn.nextLine();
@@ -193,7 +187,7 @@ public class PacienteView {
         while (controller) {
             System.out.print("Numero: ");
             try {
-                numero = scn.nextInt();
+                numero = scn.next();
                 controller = false;
             } catch (InputMismatchException i) {
                 System.out.println("Número não deve ser String");

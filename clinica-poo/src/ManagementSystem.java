@@ -1,58 +1,63 @@
 import java.util.List;
 
-import Controle.ControleAnamnese;
-import Controle.ControlePaciente;
-import Controle.ControleUsuario;
+import Controle.AnamnesisController;
+import Controle.PatientController;
+import Controle.UserController;
 import Model.User;
 import View.AnamneseView;
 import View.MenuView;
-import View.PacienteView;
-import View.UsuarioView;
+import View.PatientView;
+import View.UserView;
 import enums.Type;
-import repositories.RepositorioAnamneseList;
-import repositories.RepositorioPacienteList;
+import repositories.AnamnesisRepository;
+import repositories.IAnamnesis;
+import repositories.IPatient;
+import repositories.IUser;
+import repositories.PatientRepository;
 import repositories.UserRepository;
 
-public class Sistema {
+public class ManagementSystem {
 
-    private ControleUsuario controleUsuario;
-    private ControlePaciente controlePaciente;
-    private ControleAnamnese controleAnamnese;
+    private UserController userController;
+    private PatientController patientController;
+    private AnamnesisController anamnesisController;
+
     private MenuView menuView;
-    private PacienteView pacienteView;
-    private UsuarioView usuarioView;
-    private AnamneseView anamneseView;
-    private UserRepository repositorioUsuarioList;
-    private RepositorioPacienteList repositorioPacienteList;
-    private RepositorioAnamneseList repositorioAnamneseList;
+    private PatientView patientView;
+    private UserView userView;
+    private AnamneseView anamnesisView;
 
-    private static Sistema sistema;
+    private IUser userRepository;
+    private IPatient patientRepository;
+    private IAnamnesis anamnesisRepository;
+
+    private static ManagementSystem system;
 
     // Singleton
-    public static Sistema getInstance() {
-        if (sistema == null) {
-            sistema = new Sistema();
+    public static ManagementSystem getInstance() {
+        if (system == null) {
+            system = new ManagementSystem();
         }
-        return sistema;
+        return system;
     }
 
-    private Sistema() {
-        this.pacienteView = new PacienteView();
-        this.anamneseView = new AnamneseView();
-        this.repositorioUsuarioList = UserRepository.getInstance();
-        this.repositorioAnamneseList = RepositorioAnamneseList.getInstance();
-        this.repositorioPacienteList = RepositorioPacienteList.getInstance();
-        this.controleUsuario = new ControleUsuario(this.repositorioUsuarioList);
-        this.controlePaciente = new ControlePaciente(this.repositorioPacienteList);
-        this.controleAnamnese = new ControleAnamnese(this.repositorioAnamneseList);
+    private ManagementSystem() {
+        this.patientView = new PatientView();
+        this.anamnesisView = new AnamneseView();
+        this.userRepository = UserRepository.getInstance();
+        this.anamnesisRepository = AnamnesisRepository.getInstance();
+        this.patientRepository = PatientRepository.getInstance();
+        this.userController = new UserController(this.userRepository);
+        this.patientController = new PatientController(this.patientRepository);
+        this.anamnesisController = new AnamnesisController(this.anamnesisRepository);
         this.iniciar();
     }
 
-    public User autenticar(String nomeLogin, String senha) {
-        List<User> usuarios = repositorioUsuarioList.listar();
-        for (User usuario : usuarios) {
-            if (usuario.auth(nomeLogin, senha))
-                return usuario;
+    public User autenticar(String loginName, String password) {
+        List<User> users = userRepository.list();
+        for (User user : users) {
+            if (user.auth(loginName, password))
+                return user;
         }
         return null;
     }
@@ -60,8 +65,8 @@ public class Sistema {
     public void iniciar() {
 
         menuView = new MenuView();
-        // pacienteView = new PacienteView();
-        usuarioView = new UsuarioView();
+        // patientView = new patientView();
+        userView = new UserView();
         // anamneseView = new AnamneseView();
 
         int selecaoMenuPrimario = 0;
@@ -69,8 +74,8 @@ public class Sistema {
             selecaoMenuPrimario = menuView.menuPrincipal();
             switch (selecaoMenuPrimario) {
                 case 1:
-                    usuarioView.listarUsuario(controleUsuario.listar());
-                    String[] dados = usuarioView.lerUsuario(true);
+                    userView.userList(userController.list());
+                    String[] dados = userView.userRead(true);
                     User uLogin = this.autenticar(dados[0], dados[1]);
                     if (uLogin != null) {
                         if (uLogin.getType().compareTo(Type.ASSISTANT) == 0) {
@@ -88,18 +93,18 @@ public class Sistema {
                     int selecaoMenuCrudUm = menuView.menuUsuario();
                     switch (selecaoMenuCrudUm) {
                         case 1:
-                            controleUsuario.add();
+                            userController.add();
                             break;
                         case 2:
-                            usuarioView.listarUsuario(controleUsuario.listar());
-                            controleUsuario.excluir();
+                            userView.userList(userController.list());
+                            userController.delete();
                             break;
                         case 3:
-                            usuarioView.listarUsuario(controleUsuario.listar());
-                            controleUsuario.alterar();
+                            userView.userList(userController.list());
+                            userController.update();
                             break;
                         case 4:
-                            usuarioView.listarUsuario(controleUsuario.listar());
+                            userView.userList(userController.list());
                             break;
                         case 5:
                             break;
@@ -123,18 +128,18 @@ public class Sistema {
             selecaoAssistente = menuView.menuAssistente();
             switch (selecaoAssistente) {
                 case 1:
-                    controlePaciente.add();
+                    patientController.add();
                     break;
                 case 2:
-                    pacienteView.listarPacientes(controlePaciente.listar());
-                    controlePaciente.excluir();
+                    patientView.patientList(patientController.listar());
+                    patientController.excluir();
                     break;
                 case 3:
-                    pacienteView.listarPacientes(controlePaciente.listar());
-                    controlePaciente.alterar();
+                    patientView.patientList(patientController.listar());
+                    patientController.alterar();
                     break;
                 case 4:
-                    pacienteView.listarPacientes(controlePaciente.listar());
+                    patientView.patientList(patientController.listar());
                     break;
                 case 5:
                     break;
@@ -154,16 +159,16 @@ public class Sistema {
             selecaoMedico = menuView.menuMedico();
             switch (selecaoMedico) {
                 case 1:
-                    controleAnamnese.add();
+                    anamnesisController.add();
                     break;
                 case 2:
-                controleAnamnese.buscarAnamnese();
+                anamnesisController.buscarAnamnese();
                     break;
                 case 3:
-                    controleAnamnese.alterar();
+                    anamnesisController.alterar();
                     break;
                 case 4:
-                    anamneseView.listarAnamneses(controleAnamnese.listarAnamneses());
+                    anamnesisView.listarAnamneses(anamnesisController.listarAnamneses());
                     break;
                 case 5:
                     break;

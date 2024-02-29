@@ -7,21 +7,21 @@ import Model.Anamnesis;
 import exceptions.AnamneseInvalidaException;
 import exceptions.AnamneseNaoEncontradaException;
 
-public class RepositorioAnamneseList implements IAnamnesis {
+public class AnamnesisRepository implements IAnamnesis {
     private List<Anamnesis> anamneses;
     private long proxId;
-    private static RepositorioAnamneseList repositorioAnamneseList;
+    private static AnamnesisRepository anamnesisRepository;
 
-    public RepositorioAnamneseList() {
+    public AnamnesisRepository() {
         anamneses = new ArrayList<Anamnesis>();
         proxId = 1;
     }
 
-    public static RepositorioAnamneseList getInstance() {
-        if(repositorioAnamneseList == null) {
-            repositorioAnamneseList = new RepositorioAnamneseList();
+    public static AnamnesisRepository getInstance() {
+        if(anamnesisRepository == null) {
+            anamnesisRepository = new AnamnesisRepository();
         }
-        return repositorioAnamneseList;
+        return anamnesisRepository;
     }
     
 
