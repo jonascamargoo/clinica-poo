@@ -1,13 +1,13 @@
 import java.util.List;
 
-import Controle.AnamnesisController;
-import Controle.PatientController;
-import Controle.UserController;
 import Model.User;
 import View.AnamneseView;
 import View.MenuView;
 import View.PatientView;
 import View.UserView;
+import controllers.AnamnesisController;
+import controllers.PatientController;
+import controllers.UserController;
 import enums.Type;
 import repositories.AnamnesisRepository;
 import repositories.IAnamnesis;

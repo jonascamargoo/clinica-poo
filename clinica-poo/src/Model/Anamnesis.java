@@ -3,9 +3,9 @@ package Model;
 import java.util.Optional;
 
 public class Anamnesis {
-    private static long code = 0;
-    private long id;
-
+    private static long id = 0;
+    private long code;
+    
     private Patient patient;
     private String reason;
     private String report;
@@ -16,20 +16,17 @@ public class Anamnesis {
         this.reason = reason;
         this.report = report;
         this.patient = patient;
-        if (!isCopy) {
-            this.id = code;
-            code++;
-        }
+        assignCode(isCopy);
+    }
+
+    private void assignCode(boolean isCopy) {
+        this.code = isCopy ? this.code : id++;
     }
 
     public Anamnesis(Anamnesis a) {
         this(new Patient(a.patient), a.reason, a.report, a.diagnosis, true);
         this.setId(a.getId());
     }
-
-    // private void assignCode(boolean isCopy) {
-    //     this.code = isCopy ? this.code : id++;
-    // }
 
     public static Optional<Anamnesis> getInstance(Patient patient, String reason, String report, String diagnosis) {
         return (patient != null && reason != null && report != null && diagnosis != null) 

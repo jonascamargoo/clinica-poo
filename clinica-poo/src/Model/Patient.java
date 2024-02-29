@@ -7,14 +7,14 @@ import enums.Sex;
 
 public class Patient {
     protected static long id = 0;
+    protected long numCNS;
     protected String name;
     protected String motherName;
     protected Date birthDate;
     protected Sex sex;
     protected Address address;
     protected String phoneNumber;
-    protected long numCNS;
-
+    
     // Factory Method - encapsulando logica de criacao de objetos patient
 
     // Construtor principal - cria uma instancia de Patient e itera o id

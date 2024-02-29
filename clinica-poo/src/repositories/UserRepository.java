@@ -8,13 +8,13 @@ import exceptions.UsuarioNaoEncontradoException;
 
 public class UserRepository implements IUser {
 	private List<User> users;
-	private long proxId;
+	private long nextId;
 
 	private static UserRepository userRepository;
 
 	public UserRepository() {
 		users = new ArrayList<User>();
-		proxId = 1;
+		nextId = 1;
 	}
 
 	public static UserRepository getInstance() {
@@ -29,8 +29,8 @@ public class UserRepository implements IUser {
 		if (u == null) {
 			return false;
 		} else {
-			u.setId(proxId);
-			proxId++;
+			u.setId(nextId);
+			nextId++;
 			if (users.add(u)) {
 				return true;
 			}
