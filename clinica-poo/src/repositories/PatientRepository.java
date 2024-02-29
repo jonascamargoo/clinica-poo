@@ -10,24 +10,24 @@ import exceptions.AlterarPacienteException;
 import exceptions.ExcluirPacienteException;
 import exceptions.PacienteInvalidoException;
 
-public class PatientRepository implements IPatientRepository {
+public class PatientRepository implements IPatient {
     private List<Patient> patients;
     private List<Anamnesis> anamneses;
-    private long proxId;
+    private long nextId;
 
+    // Storage In memory
     private static PatientRepository patientRepository;
 
     public static PatientRepository getInstance() {
         if (patientRepository == null) {
             patientRepository = new PatientRepository();
-
         }
         return patientRepository;
     }
 
     protected PatientRepository() {
         patients = new ArrayList<Patient>();
-        proxId = 1;
+        nextId = 1;
     }
 
     public void add(Patient patient) throws PacienteInvalidoException {
@@ -48,10 +48,14 @@ public class PatientRepository implements IPatientRepository {
                 }
             }
         }
-
         this.patients.add(patient);
-
     }
+
+    // private boolean addValidate(Patient patientA, Patient patientB) {
+    //     return !patientA.getMotherName().equals(patientB.getMotherName()) &&
+    //             patientA.getNumCNS() != patientB.getNumCNS();
+    // }
+
 
     public List<Patient> list() {
         List<Patient> patientsCopy = new ArrayList<Patient>();
@@ -128,7 +132,6 @@ public class PatientRepository implements IPatientRepository {
         return false;
     }
 
-    // Faz sentido o uso de id?
     public boolean isPatientLinkedToAnamnesis(long id) {
         if (patientExists(id) && anamnesisExists(id)) {
             Patient patient = findByCNS(id);

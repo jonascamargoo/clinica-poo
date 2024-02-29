@@ -95,7 +95,7 @@ public class Patient {
         return this.phoneNumber;
     }
 
-    public void add(Address e) {
+    public void setAddress(Address e) {
         this.address = e;
     }
 

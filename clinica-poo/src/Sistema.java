@@ -11,7 +11,7 @@ import View.UsuarioView;
 import enums.Type;
 import repositories.RepositorioAnamneseList;
 import repositories.RepositorioPacienteList;
-import repositories.RepositorioUsuarioList;
+import repositories.UserRepository;
 
 public class Sistema {
 
@@ -22,7 +22,7 @@ public class Sistema {
     private PacienteView pacienteView;
     private UsuarioView usuarioView;
     private AnamneseView anamneseView;
-    private RepositorioUsuarioList repositorioUsuarioList;
+    private UserRepository repositorioUsuarioList;
     private RepositorioPacienteList repositorioPacienteList;
     private RepositorioAnamneseList repositorioAnamneseList;
 
@@ -39,7 +39,7 @@ public class Sistema {
     private Sistema() {
         this.pacienteView = new PacienteView();
         this.anamneseView = new AnamneseView();
-        this.repositorioUsuarioList = RepositorioUsuarioList.getInstance();
+        this.repositorioUsuarioList = UserRepository.getInstance();
         this.repositorioAnamneseList = RepositorioAnamneseList.getInstance();
         this.repositorioPacienteList = RepositorioPacienteList.getInstance();
         this.controleUsuario = new ControleUsuario(this.repositorioUsuarioList);

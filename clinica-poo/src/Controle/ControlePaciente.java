@@ -13,14 +13,14 @@ import enums.Sex;
 import exceptions.AlterarPacienteException;
 import exceptions.ExcluirPacienteException;
 import exceptions.PacienteInvalidoException;
-import repositories.IRepositorioAnamnese;
+import repositories.IAnamnesis;
 import repositories.IRepositorioPaciente;
 
 public class ControlePaciente {
     private List<Patient> pacientes;
     private PacienteView pacienteView;
     private IRepositorioPaciente repoPaciente;
-    private IRepositorioAnamnese repoAnamnese;
+    private IAnamnesis repoAnamnese;
     private List<Anamnesis> anamneses;
 
     public ControlePaciente(IRepositorioPaciente repoPaciente) {

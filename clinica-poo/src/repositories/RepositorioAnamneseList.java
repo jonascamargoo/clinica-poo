@@ -7,7 +7,7 @@ import Model.Anamnesis;
 import exceptions.AnamneseInvalidaException;
 import exceptions.AnamneseNaoEncontradaException;
 
-public class RepositorioAnamneseList implements IRepositorioAnamnese {
+public class RepositorioAnamneseList implements IAnamnesis {
     private List<Anamnesis> anamneses;
     private long proxId;
     private static RepositorioAnamneseList repositorioAnamneseList;
@@ -40,7 +40,7 @@ public class RepositorioAnamneseList implements IRepositorioAnamnese {
     }
 
     @Override
-    public List<Anamnesis> listar() {
+    public List<Anamnesis> list() {
         List<Anamnesis> anamnesesCopia = new ArrayList<Anamnesis>();
         for (int i = 0; i < anamneses.size(); i++) {
             try {
@@ -54,7 +54,7 @@ public class RepositorioAnamneseList implements IRepositorioAnamnese {
 
 
     @Override
-    public Anamnesis buscar(long idAnamnese) {
+    public Anamnesis findById(long idAnamnese) {
         for (int i = 0; i < anamneses.size(); i++) {
             if(anamneses.get(i).getId() == idAnamnese) {
                 return anamneses.get(i);
@@ -64,11 +64,11 @@ public class RepositorioAnamneseList implements IRepositorioAnamnese {
     }
 
 
-    public void alterar(Anamnesis aNova, long id) throws AnamneseNaoEncontradaException {
+    public void update(Anamnesis aNova, long id) throws AnamneseNaoEncontradaException {
         if(aNova == null) {
             throw new NullPointerException();
         }
-        if(!existeAnamnese(id)) {
+        if(!anamnesisExists(id)) {
             throw new AnamneseNaoEncontradaException();
         }
         for (int i = 0; i < anamneses.size(); i++) {
@@ -80,7 +80,7 @@ public class RepositorioAnamneseList implements IRepositorioAnamnese {
         }
     }
 
-    public boolean existeAnamnese(long id) {
+    public boolean anamnesisExists(long id) {
         for (Anamnesis anamnese : anamneses) {
             if (anamnese.getId() == id) {
                 return true;
@@ -91,12 +91,12 @@ public class RepositorioAnamneseList implements IRepositorioAnamnese {
 
    
 
-    public Anamnesis buscaAnamnese(String nome, String nomeMae) {       
+    public Anamnesis findAnamnesisByMotherName(String nome, String nomeMae) {       
         for (Anamnesis anamnese : anamneses) {
-            if(!existeHomonimo(nome)) {
+            if(!homonymExists(nome)) {
                 return anamnese;
             } else {
-                if(anamnese.getPaciente().getNomeMae().equals(nomeMae)) {
+                if(anamnese.getPatient().getMotherName().equals(nomeMae)) {
                     return anamnese;
                 }
             }
@@ -106,15 +106,15 @@ public class RepositorioAnamneseList implements IRepositorioAnamnese {
 
 
     @Override
-    public boolean existeHomonimo(String nome) {
+    public boolean homonymExists(String nome) {
         String nomeMae;
         for (Anamnesis anamnese : anamneses) {
-            if (anamnese.getPaciente().getName().equals(nome)) {
-                nomeMae = anamnese.getPaciente().getNomeMae();
+            if (anamnese.getPatient().getName().equals(nome)) {
+                nomeMae = anamnese.getPatient().getMotherName();
                 for (Anamnesis anamnese2 : anamneses) {
                     if (anamnese2 != anamnese
-                            && anamnese2.getPaciente().getName().equals(anamnese.getPaciente().getName())
-                            && !anamnese2.getPaciente().getNomeMae().equals(nomeMae)) {
+                            && anamnese2.getPatient().getName().equals(anamnese.getPatient().getName())
+                            && !anamnese2.getPatient().getMotherName().equals(nomeMae)) {
                         return true;
                     }
                 }

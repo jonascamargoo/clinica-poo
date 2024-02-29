@@ -8,7 +8,7 @@ import exceptions.AlterarPacienteException;
 import exceptions.ExcluirPacienteException;
 import exceptions.PacienteInvalidoException;
 
-public interface IPatientRepository {
+public interface IPatient {
     public void add(Patient patient) throws PacienteInvalidoException;
     public List<Patient> list();
     public void delete(long numCNS) throws ExcluirPacienteException;

@@ -13,10 +13,7 @@ public class User implements Authenticatable {
 	private String password;
 	private Type type;
 
-	private User(
-			String name, String loginName, 
-			String password, Type type, boolean isCopy
-		) {
+	private User(String name, String loginName, String password, Type type, boolean isCopy) {
 		this.name = name;
 		this.loginName = loginName;
 		this.password = password;
@@ -25,10 +22,8 @@ public class User implements Authenticatable {
 
 	// Copy constructor - esse padrao eh utilizado para criar uma nova instancia de uma classe com base em uma instancia existente. Ele eh util para criar copias imutaveis de objetos
 	public User(User user) {
-		this(
-			user.name, user.loginName, user.password, 
-			Type.valueOf(user.getType().toString()), true
-		);
+		this(user.name, user.loginName, user.password, Type.valueOf(user.getType().toString()), true);
+
 		long id = user.getId();
 		this.setId(id);
 	}

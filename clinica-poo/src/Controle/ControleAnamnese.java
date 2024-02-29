@@ -7,17 +7,17 @@ import Model.Patient;
 import View.AnamneseView;
 import exceptions.AnamneseInvalidaException;
 import exceptions.AnamneseNaoEncontradaException;
-import repositories.IRepositorioAnamnese;
+import repositories.IAnamnesis;
 import repositories.IRepositorioPaciente;
 import repositories.RepositorioPacienteList;
 
 public class ControleAnamnese {
     private AnamneseView anamneseView;
     private IRepositorioPaciente repositorioPaciente;
-    private IRepositorioAnamnese repoAnamnese;
+    private IAnamnesis repoAnamnese;
     
 
-    public ControleAnamnese(IRepositorioAnamnese repoAnamnese) {
+    public ControleAnamnese(IAnamnesis repoAnamnese) {
 		anamneseView = new AnamneseView();
 		this.repoAnamnese = repoAnamnese;
         this.init();
