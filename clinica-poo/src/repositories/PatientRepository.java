@@ -7,8 +7,6 @@ import java.util.Optional;
 import Model.Anamnesis;
 import Model.Patient;
 import Model.PatientWithDisability;
-import exceptions.AlterarPacienteException;
-import exceptions.ExcluirPacienteException;
 import exceptions.InvalidPatientException;
 import exceptions.LinkedAnamnesisException;
 import exceptions.PatientNotFoundException;
@@ -39,9 +37,9 @@ public class PatientRepository implements IPatient {
     // orElse() em vez de if(x == null)
 
     //Não deve ser possível inserir mais de um paciente com mesmo nome, nome de mae ou mesmo numCNS
-    public void add(Patient patient) throws InvalidPatientException {
+    public void add(Patient patient) {
         if(duplicateName(patient) || duplicateCNS(patient) || duplicateMotherName(patient))
-            throw new InvalidPatientException("Dados inválidos");
+            throw new InvalidPatientException();
         this.patients.add(patient);
     }
 
@@ -73,38 +71,36 @@ public class PatientRepository implements IPatient {
         return patientsCopy;
     }
 
+    // Reduce?? Quero manter a original!
+    // public List<Patient> list() {
+    //     var patientsCopy = new ArrayList<Patient>();
+    //     patients
+    // }
+
     public void delete(long numCNS) {
-        Patient patient = findByCNS(numCNS).orElseThrow(() -> new PatientNotFoundException());
-        if(!isPatientLinkedToAnamnesis(numCNS)) {
+        Patient patient = findByCNS(numCNS)
+            .orElseThrow(() -> new PatientNotFoundException());
+        if(isPatientLinkedToAnamnesis(numCNS))
             throw new LinkedAnamnesisException();
-        }
         patients.remove(patient);
     }
 
     public boolean isPatientLinkedToAnamnesis(long numCNS) {
-        return anamneses.stream()
-                .anyMatch(anamnesis ->
-                    anamnesis.getPatient().getNumCNS() == numCNS
-                );
+        return anamneses.stream().anyMatch(anamnesis ->
+                anamnesis.getPatient().getNumCNS() == numCNS
+            );
     }
 
-    public void update(Patient updatedPatient) throws AlterarPacienteException {
-        if (!patientExists(updatedPatient.getNumCNS())) {
-            throw new AlterarPacienteException("Paciente não encontrado");
-        }
-        for (int i = 0; i < patients.size(); i++) {
-            if (patients.get(i) != null) {
-                if (patients.get(i).getNumCNS() == updatedPatient.getNumCNS()) {
-                    patients.set(i, updatedPatient);
-                }
-            }
-        }
+    public void update(Patient updatedPatient) {
+        Patient existingPatient = findByCNS(updatedPatient.getNumCNS())
+            .orElseThrow(() -> new PatientNotFoundException());
+        patients.set(patients.indexOf(existingPatient), updatedPatient);
     }
 
     public Optional<Patient> findByCNS(long numCNS) {
         return patients.stream()
-                .filter(patient -> patient.getNumCNS() == numCNS)
-                .findFirst();
+            .filter(patient -> patient.getNumCNS() == numCNS)
+            .findFirst();
     }
 
 
@@ -118,20 +114,5 @@ public class PatientRepository implements IPatient {
             .filter(patient -> patient.getName().equals(nome))
             .findFirst();
     }
-
-    // Esse metodo busca na lista real?? ou apenas na lista que esta nesse repositorio?
-    // public Optional<Anamnesis> findAnamnesis(long id) {
-    //     for (Anamnesis anamnesis : anamneses) {
-    //         if (anamnesis.getId() == id) {
-    //             return anamnesis;
-    //         }
-    //     }
-
-    //     return null;
-    // }
-
-
-
-
 
 }

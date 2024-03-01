@@ -63,16 +63,6 @@ public class PatientController {
         return patientRepository.findByCNS(cns).orElseThrow();
     }
 
-    // public boolean pacienteAtreladoAnamnese(long id) {
-    //     if (existePaciente(id) && existeAnamnese(id)) {
-    //         Patient p = findByCNS(id);
-    //         Anamnesis a = buscaAnamnese(id);
-    //         if (a.getPatient() == p) {
-    //             return true;
-    //         }
-    //     }
-    //     return false;
-    // }
 
     // public boolean existeAnamnese(long id) {
     //     if (patientRepository.isPatientLinkedToAnamnesis(id)) {
@@ -80,14 +70,6 @@ public class PatientController {
     //     }
     //     return false;
     // }
-
-    public Anamnesis buscaAnamnese(long id) {
-        return patientRepository.findAnamnesis(id);
-    }
-
-    public boolean existePaciente(long cns) {
-        return patientRepository.patientExists(cns);
-    }
 
     public void init() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");

@@ -53,12 +53,6 @@ public class AnamnesisRepository implements IAnamnesis {
         return anamnesesCopia;
     }
 
-    // esse metodo retorna a lista real!
-    public List<Anamnesis> getAnamnesisRealList() {
-        return anamneses;
-    }
-
-
     @Override
     public Anamnesis findById(long idAnamnese) {
         for (int i = 0; i < anamneses.size(); i++) {
