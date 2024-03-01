@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import Model.Patient;
 import Model.Anamnesis;
@@ -12,14 +13,13 @@ import View.PatientView;
 import enums.Sex;
 import exceptions.AlterarPacienteException;
 import exceptions.ExcluirPacienteException;
-import exceptions.PacienteInvalidoException;
+import exceptions.InvalidPatientException;
 import repositories.IPatient;
 
 // As exception devem ser tratadas em repository
 public class PatientController {
     private PatientView pacienteView;
     private IPatient patientRepository;
-
 
     public PatientController(IPatient patientRepository) {
         pacienteView = new PatientView();
@@ -31,12 +31,11 @@ public class PatientController {
         Patient p = pacienteView.patientRead();
         try {
             patientRepository.add(p);
-        } catch (PacienteInvalidoException e) {
+        } catch (InvalidPatientException e) {
             e.printStackTrace();
         }
     }
 
-    // NAO TRATAR AQUI, TRATAR EM REPOSITORY
     public void excluir() {
         long numCNS = pacienteView.patientDelete();
         try {
@@ -60,7 +59,7 @@ public class PatientController {
     }
 
     public Patient findByCNS(long cns) {
-        return patientRepository.findByCNS(cns);
+        return patientRepository.findByCNS(cns).orElseThrow();
     }
 
     // public boolean pacienteAtreladoAnamnese(long id) {
@@ -108,7 +107,7 @@ public class PatientController {
                 e1, "132459876").get();
         try {
             patientRepository.add(p1);
-        } catch (PacienteInvalidoException e6) {
+        } catch (InvalidPatientException e6) {
             e6.printStackTrace();
         }
 
@@ -126,7 +125,7 @@ public class PatientController {
 
         try {
             patientRepository.add(p2);
-        } catch (PacienteInvalidoException e6) {
+        } catch (InvalidPatientException e6) {
             e6.printStackTrace();
         }
 
@@ -146,7 +145,7 @@ public class PatientController {
         p3.setAddress(e3);
         try {
             patientRepository.add(p3);
-        } catch (PacienteInvalidoException e6) {
+        } catch (InvalidPatientException e6) {
             e6.printStackTrace();
         }
 
@@ -166,7 +165,7 @@ public class PatientController {
 
         try {
             patientRepository.add(p4);
-        } catch (PacienteInvalidoException e6) {
+        } catch (InvalidPatientException e6) {
             e6.printStackTrace();
         }
 
@@ -184,7 +183,7 @@ public class PatientController {
                 "12345678").get();
         try {
             patientRepository.add(p5);
-        } catch (PacienteInvalidoException e) {
+        } catch (InvalidPatientException e) {
             e.printStackTrace();
         }
     }

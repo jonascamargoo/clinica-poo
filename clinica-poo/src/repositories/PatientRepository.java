@@ -2,13 +2,14 @@ package repositories;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import Model.Anamnesis;
 import Model.Patient;
 import Model.PatientWithDisability;
 import exceptions.AlterarPacienteException;
 import exceptions.ExcluirPacienteException;
-import exceptions.PacienteInvalidoException;
+import exceptions.InvalidPatientException;
 
 public class PatientRepository implements IPatient {
     private List<Patient> patients;
@@ -30,31 +31,29 @@ public class PatientRepository implements IPatient {
         nextId = 1;
     }
 
-    public void add(Patient patient) throws PacienteInvalidoException {
-        if (patient == null) {
-            throw new PacienteInvalidoException("Dados inválidos");
-        }
-        for (int i = 0; i < this.patients.size(); i++) {
-            // checagem do requisito 'Não deve ser possível inserir mais de um paciente com
-            // o mesmo nome e mesmo nome de mãe'
-            if (this.patients.get(i) != null) {
-                if (this.patients.get(i).getName().equals(patient.getName())
-                        && this.patients.get(i).getMotherName().equals(patient.getMotherName())) {
-                    throw new PacienteInvalidoException("Dados inválidos");
-                }
-                // CNS deve ser único
-                if (this.patients.get(i).getNumCNS() == patient.getNumCNS()) {
-                    throw new PacienteInvalidoException("Dados inválidos");
-                }
-            }
-        }
+    // orElse() em vez de if(x == null)
+
+    //Não deve ser possível inserir mais de um paciente com mesmo nome, nome de mae ou mesmo numCNS
+    public void add(Patient patient) throws InvalidPatientException {
+        if(duplicateName(patient) || duplicateCNS(patient) || duplicateMotherName(patient))
+            throw new InvalidPatientException("Dados inválidos");
         this.patients.add(patient);
     }
 
-    // private boolean addValidate(Patient patientA, Patient patientB) {
-    //     return !patientA.getMotherName().equals(patientB.getMotherName()) &&
-    //             patientA.getNumCNS() != patientB.getNumCNS();
-    // }
+    private boolean duplicateName(Patient patient) {
+        return patients.stream()
+            .anyMatch(p -> p.getName().equals(patient.getName()));
+    }
+
+    private boolean duplicateMotherName(Patient patient) {
+        return patients.stream()
+            .anyMatch(p -> p.getMotherName().equals(patient.getMotherName()));
+    }
+
+    private boolean duplicateCNS(Patient patient) {
+        return patients.stream()
+            .anyMatch(p -> p.getNumCNS() == patient.getNumCNS());
+    }
 
 
     public List<Patient> list() {
@@ -71,7 +70,7 @@ public class PatientRepository implements IPatient {
     }
 
     public void delete(long numCNS) throws ExcluirPacienteException {
-        Patient patient = this.findByCNS(numCNS);
+        Patient patient = this.findByCNS(numCNS).get();
         if (patient != null) {
             for (int j = 0; j < this.anamneses.size(); j++) {
                 if (this.anamneses.get(j) != null) {
@@ -103,38 +102,19 @@ public class PatientRepository implements IPatient {
         }
     }
 
-    public Patient findByCNS(long numCNS) {
-        for (int i = 0; i < patients.size(); i++) {
-            if (patients.get(i) != null) {
-                if (patients.get(i).getNumCNS() == numCNS) {
-                    return patients.get(i);
-                }
-            }
-        }
-        return null;
-    }
-
-    public Patient findById(long idPatient) {
-        for (int i = 0; i < patients.size(); i++) {
-            if (patients.get(i).getNumCNS() == idPatient) {
-                return patients.get(i);
-            }
-        }
-        return null;
+    public Optional<Patient> findByCNS(long numCNS) {
+        return patients.stream()
+                .filter(patient -> patient.getNumCNS() == numCNS)
+                .findFirst();
     }
 
     public boolean patientExists(long cns) {
-        for (Patient paciente : patients) {
-            if (paciente.getNumCNS() == cns) {
-                return true;
-            }
-        }
-        return false;
+        return findByCNS(cns).isPresent();
     }
 
     public boolean isPatientLinkedToAnamnesis(long id) {
         if (patientExists(id) && anamnesisExists(id)) {
-            Patient patient = findByCNS(id);
+            Patient patient = findByCNS(id).get();
             Anamnesis anamnesis = findAnamnesis(id);
             if (anamnesis.getPatient() == patient) {
                 return true;
@@ -170,6 +150,5 @@ public class PatientRepository implements IPatient {
         }
         return false;
     }
-
 
 }
