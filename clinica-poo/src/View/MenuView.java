@@ -6,7 +6,7 @@ public class MenuView {
 	private static Scanner scn = new Scanner(System.in);
 
 	public int menuPrincipal() {
-		System.out.println("\nBem-vendo(a) ao nosso sistema!");
+		System.out.println("\nBem-vindo(a) ao nosso sistema!");
 		System.out.println("[1] Logar(a)"); 
 		System.out.println("[2] Menu de Usuários");
 		System.out.println("[3] Sair");
@@ -25,7 +25,6 @@ public class MenuView {
 		return scn.nextInt();
 	}
 	
-
 	public int menuMedico() {
 		System.out.println("\n[1] Adicionar anamnese");
 		System.out.println("[2] Buscar anamnese");

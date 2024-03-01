@@ -131,15 +131,15 @@ public class ManagementSystem {
                     patientController.add();
                     break;
                 case 2:
-                    patientView.patientList(patientController.listar());
-                    patientController.excluir();
+                    patientView.patientList(patientController.list());
+                    patientController.delete();
                     break;
                 case 3:
-                    patientView.patientList(patientController.listar());
-                    patientController.alterar();
+                    patientView.patientList(patientController.list());
+                    patientController.update();
                     break;
                 case 4:
-                    patientView.patientList(patientController.listar());
+                    patientView.patientList(patientController.list());
                     break;
                 case 5:
                     break;

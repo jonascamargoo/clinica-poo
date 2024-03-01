@@ -2,11 +2,9 @@ package repositories;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import Model.Anamnesis;
 import Model.Patient;
-import Model.PatientWithDisability;
 import exceptions.InvalidPatientException;
 import exceptions.LinkedAnamnesisException;
 import exceptions.PatientNotFoundException;
@@ -16,7 +14,7 @@ public class PatientRepository implements IPatient {
     private List<Patient> patients;
     private IAnamnesis anamnesisRepository;
     //Copia da lista real
-    private List<Anamnesis> anamneses = anamnesisRepository.list();
+    private List<Anamnesis> anamneses;
     private long nextId;
 
     // pripriedade para criacao do metodo fabrica
@@ -31,10 +29,10 @@ public class PatientRepository implements IPatient {
 
     protected PatientRepository() {
         patients = new ArrayList<Patient>();
+        anamnesisRepository = AnamnesisRepository.getInstance();
+        anamneses = anamnesisRepository.list();
         nextId = 1;
     }
-
-    // orElse() em vez de if(x == null)
 
     //Não deve ser possível inserir mais de um paciente com mesmo nome, nome de mae ou mesmo numCNS
     public void add(Patient patient) {
@@ -59,27 +57,16 @@ public class PatientRepository implements IPatient {
     }
 
     // Imutabilidade - irei retornar a copia da lista para nao comprometer meu repositorio in memory
-    public List<Patient> list() {
-        List<Patient> patientsCopy = new ArrayList<Patient>();
-        for (Patient patient : patients) {
-            if (patient instanceof PatientWithDisability) {
-                patientsCopy.add(new PatientWithDisability((PatientWithDisability) patient));
-            } else {
-                patientsCopy.add(new Patient(patient));
-            }
-        }
-        return patientsCopy;
-    }
-
-    // Reduce?? Quero manter a original!
     // public List<Patient> list() {
-    //     var patientsCopy = new ArrayList<Patient>();
-    //     patients
+    //     return patients.stream()
+    //         .map(patient -> (patient instanceof PatientWithDisability) 
+    //             ? new PatientWithDisability((PatientWithDisability) patient) 
+    //             : new Patient(patient))
+    //         .collect(Collectors.toList());
     // }
 
     public void delete(long numCNS) {
-        Patient patient = findByCNS(numCNS)
-            .orElseThrow(() -> new PatientNotFoundException());
+        Patient patient = findByCNS(numCNS);
         if(isPatientLinkedToAnamnesis(numCNS))
             throw new LinkedAnamnesisException();
         patients.remove(patient);
@@ -92,27 +79,32 @@ public class PatientRepository implements IPatient {
     }
 
     public void update(Patient updatedPatient) {
-        Patient existingPatient = findByCNS(updatedPatient.getNumCNS())
-            .orElseThrow(() -> new PatientNotFoundException());
+        Patient existingPatient = findByCNS(updatedPatient.getNumCNS());
         patients.set(patients.indexOf(existingPatient), updatedPatient);
     }
 
-    public Optional<Patient> findByCNS(long numCNS) {
+    public Patient findByCNS(long numCNS) throws PatientNotFoundException {
         return patients.stream()
-            .filter(patient -> patient.getNumCNS() == numCNS)
-            .findFirst();
+                .filter(patient -> patient.getNumCNS() == numCNS)
+                .findFirst()
+                .orElseThrow(() -> new PatientNotFoundException());
+        
     }
 
-
-    public boolean patientExists(long cns) {
-        return findByCNS(cns).isPresent();
-    }
-
-
-    public Optional<Patient> findByName(String nome) {
+    public Patient findByName(String nome) {
         return patients.stream()
             .filter(patient -> patient.getName().equals(nome))
-            .findFirst();
+            .findFirst()
+            .orElseThrow(() -> new PatientNotFoundException());
+
     }
+
+    @Override //retornando copia
+    public List<Patient> list() {
+        return new ArrayList<>(this.patients);
+    }
+
+
+    
 
 }

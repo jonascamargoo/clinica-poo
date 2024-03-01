@@ -4,19 +4,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import Model.Patient;
-import Model.Anamnesis;
 import Model.Address;
 import View.PatientView;
 import enums.Sex;
-import exceptions.AlterarPacienteException;
-import exceptions.ExcluirPacienteException;
 import exceptions.InvalidPatientException;
 import repositories.IPatient;
 
-// OS NULOS DEVEM SER TRATADOS AQUI UTILIZAMOS OS METODOS DO OPTIONAL
 public class PatientController {
     private PatientView pacienteView;
     private IPatient patientRepository;
@@ -28,52 +23,33 @@ public class PatientController {
     }
 
     public void add() {
-        Patient p = pacienteView.patientRead();
-        try {
-            patientRepository.add(p);
-        } catch (InvalidPatientException e) {
-            e.printStackTrace();
-        }
+        Patient newPatient = pacienteView.patientRead();
+        patientRepository.add(newPatient);
     }
 
-    public void excluir() {
+    public void delete() {
         long numCNS = pacienteView.patientDelete();
-        try {
-            patientRepository.delete(numCNS);
-        } catch (ExcluirPacienteException e) {
-            e.printStackTrace();
-        }
+        patientRepository.delete(numCNS);
     }
 
-    public List<Patient> listar() {
+    public List<Patient> list() {
         return patientRepository.list();
     }
 
-    public void alterar() {
+    public void update() {
         Patient updatedPatient = pacienteView.patientUpdate();
-        try {
-            patientRepository.update(updatedPatient);
-        } catch (AlterarPacienteException e) {
-            e.printStackTrace();
-        }
+        patientRepository.update(updatedPatient);
     }
 
-    // Utilizar o orElseThrow??
     public Patient findByCNS(long cns) {
-        return patientRepository.findByCNS(cns).orElseThrow();
+        return patientRepository.findByCNS(cns);
     }
-
-
-    // public boolean existeAnamnese(long id) {
-    //     if (patientRepository.isPatientLinkedToAnamnesis(id)) {
-    //         return true;
-    //     }
-    //     return false;
-    // }
 
     public void init() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Date data = new Date();
+
+        // Paciente 1
 
         try {
             data = sdf.parse("05/01/1965");

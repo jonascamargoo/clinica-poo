@@ -48,7 +48,7 @@ public class AnamneseView {
             scn.nextLine();
             return null;
         }
-        Patient patient = patientRepository.findByCNS(cns).get();
+        Patient patient = patientRepository.findByCNS(cns);
         
 
         System.out.print("Motivo: ");
