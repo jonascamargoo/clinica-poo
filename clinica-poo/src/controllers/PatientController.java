@@ -16,7 +16,7 @@ import exceptions.ExcluirPacienteException;
 import exceptions.InvalidPatientException;
 import repositories.IPatient;
 
-// As exception devem ser tratadas em repository
+// OS NULOS DEVEM SER TRATADOS AQUI UTILIZAMOS OS METODOS DO OPTIONAL
 public class PatientController {
     private PatientView pacienteView;
     private IPatient patientRepository;
@@ -58,6 +58,7 @@ public class PatientController {
         }
     }
 
+    // Utilizar o orElseThrow??
     public Patient findByCNS(long cns) {
         return patientRepository.findByCNS(cns).orElseThrow();
     }
@@ -86,10 +87,6 @@ public class PatientController {
 
     public boolean existePaciente(long cns) {
         return patientRepository.patientExists(cns);
-    }
-
-    public Patient findByName(String nome) {
-        return patientRepository.findByName(nome);
     }
 
     public void init() {

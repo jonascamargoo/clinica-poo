@@ -14,5 +14,6 @@ public interface IAnamnesis {
     public boolean anamnesisExists(long idAnamnesis);
     public Anamnesis findAnamnesisByMotherName(String name, String motherName) throws AnamneseNaoEncontradaException;
     public boolean homonymExists(String name);
+    public List<Anamnesis> getAnamnesisRealList();
 
 }

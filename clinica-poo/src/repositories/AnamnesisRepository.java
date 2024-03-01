@@ -7,6 +7,7 @@ import Model.Anamnesis;
 import exceptions.AnamneseInvalidaException;
 import exceptions.AnamneseNaoEncontradaException;
 
+// deveria colocar listas de pacientes aqui?
 public class AnamnesisRepository implements IAnamnesis {
     private List<Anamnesis> anamneses;
     private long proxId;
@@ -50,6 +51,11 @@ public class AnamnesisRepository implements IAnamnesis {
             }
         }
         return anamnesesCopia;
+    }
+
+    // esse metodo retorna a lista real!
+    public List<Anamnesis> getAnamnesisRealList() {
+        return anamneses;
     }
 
 
