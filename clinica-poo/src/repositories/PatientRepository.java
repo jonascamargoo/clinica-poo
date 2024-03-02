@@ -34,10 +34,13 @@ public class PatientRepository implements IPatient {
         nextId = 1;
     }
 
-    //Não deve ser possível inserir mais de um paciente com mesmo nome, nome de mae ou mesmo numCNS
     public void add(Patient patient) {
-        if(duplicateName(patient) || duplicateCNS(patient) || duplicateMotherName(patient))
-            throw new InvalidPatientException();
+        if (duplicateName(patient))
+            throw new InvalidPatientException("paciente com o mesmo nome.");
+        if (duplicateMotherName(patient))
+            throw new InvalidPatientException("paciente com o mesmo nome da mãe.");
+        if (duplicateCNS(patient)) 
+            throw new InvalidPatientException("paciente com o mesmo número de CNS.");
         this.patients.add(patient);
     }
 

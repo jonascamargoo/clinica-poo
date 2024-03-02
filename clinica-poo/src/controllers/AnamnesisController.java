@@ -46,13 +46,6 @@ public class AnamnesisController {
         return anaminesisRepository.list();
     }
 
-    public boolean existeAnamnese(long id) {
-        if(anaminesisRepository.anamnesisExists(id)) {
-            return true;
-        }
-        return false;
-    }
-
     public Anamnesis buscarAnamnese() {
         //preciso
         long id = anamneseView.inputId();
@@ -60,13 +53,6 @@ public class AnamnesisController {
         return null;
         
         
-    }
-
-    public boolean existeHomonimo(String nome) {
-        if(anaminesisRepository.homonymExists(nome)) {
-            return true;
-        }
-        return false;
     }
 
     public void init() {
