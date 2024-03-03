@@ -165,10 +165,10 @@ public class ManagementSystem {
                 anamnesisController.buscarAnamnese();
                     break;
                 case 3:
-                    anamnesisController.alterar();
+                    anamnesisController.update();
                     break;
                 case 4:
-                    anamnesisView.listarAnamneses(anamnesisController.listarAnamneses());
+                    anamnesisView.listAll(anamnesisController.list());
                     break;
                 case 5:
                     break;

@@ -3,6 +3,7 @@ package repositories;
 import java.util.List;
 
 import Model.User;
+import exceptions.UserNotFoundException;
 import exceptions.UsuarioNaoEncontradoException;
 
 public interface IUser {

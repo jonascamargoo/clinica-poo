@@ -80,7 +80,7 @@ public class PatientRepository implements IPatient {
                 anamnesis.getPatient().getNumCNS() == numCNS
             );
     }
-
+    
     public void update(Patient updatedPatient) {
         Patient existingPatient = findByCNS(updatedPatient.getNumCNS());
         patients.set(patients.indexOf(existingPatient), updatedPatient);
