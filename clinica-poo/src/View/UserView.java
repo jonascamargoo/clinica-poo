@@ -57,9 +57,7 @@ public class UserView {
         String password = scn.next();
         password += scn.nextLine();
         data[1] = password;
-
         return data;
-
     }
 
     public long userDelete() {
@@ -77,27 +75,26 @@ public class UserView {
 
     public User userUpdate() {
         System.out.print("Alteração - Num. ID: ");
-        long idUsuarioAntigo = 0;
+        long idPrevUser = 0;
         try {
             System.out.println("Digite o id correspondente: ");
-            idUsuarioAntigo = scn.nextLong();
+            idPrevUser = scn.nextLong();
         } catch (InputMismatchException e) {
             scn.nextLine();
             System.out.println("Num. ID inválido, tente novamente");
         }
-        User uNovo = userRead();
-        uNovo.setId(idUsuarioAntigo);
-        return uNovo;
+        User updatedUser = userRead();
+        updatedUser.setId(idPrevUser);
+        return updatedUser;
     }
 
-    public void userList(List<User> usuarios) {
+    public void userList(List<User> users) {
         System.out.println();
         System.out.printf("%7s%15s%12s", "ID", "NOME", "TIPO\n");
-        for (User usuario : usuarios) {
-            System.out.printf("%7s%15s%12s", usuario.getId(), usuario.getName(),
-                    usuario.getType() + "\n");
-        }
+        users.forEach(user -> 
+            System.out.printf("%7s%15s%12s", user.getId(), user.getName(),
+                    user.getType() + "\n")
+        );
         System.out.println("\n");
-
     }
 }
