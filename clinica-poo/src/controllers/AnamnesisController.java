@@ -32,10 +32,10 @@ public class AnamnesisController {
         anaminesisRepository.update(updatedAnamnesis);
     }
 
-    public Anamnesis buscarAnamnese() {
+    public void listAnamnesis() {
         long id = anamneseView.inputId();
         anamneseView.listOne(anaminesisRepository.findById(id));
-        return null;    
+          
     }
 
     public void init() {

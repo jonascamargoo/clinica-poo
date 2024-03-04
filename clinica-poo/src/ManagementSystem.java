@@ -53,7 +53,7 @@ public class ManagementSystem {
         this.iniciar();
     }
 
-    public User autenticar(String loginName, String password) {
+    public User auth(String loginName, String password) {
         List<User> users = userRepository.list();
         for (User user : users) {
             if (user.auth(loginName, password))
@@ -75,7 +75,7 @@ public class ManagementSystem {
                 case 1:
                     userView.userList(userController.list());
                     String[] dados = userView.userRead(true);
-                    User uLogin = this.autenticar(dados[0], dados[1]);
+                    User uLogin = this.auth(dados[0], dados[1]);
                     if (uLogin != null) {
                         if (uLogin.getType().compareTo(Type.ASSISTANT) == 0) {
                             this.interfaceAssist();
@@ -161,7 +161,7 @@ public class ManagementSystem {
                     anamnesisController.add();
                     break;
                 case 2:
-                anamnesisController.buscarAnamnese();
+                anamnesisController.listAnamnesis();
                     break;
                 case 3:
                     anamnesisController.update();

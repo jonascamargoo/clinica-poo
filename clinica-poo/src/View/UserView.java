@@ -9,40 +9,40 @@ import enums.Type;
 
 public class UserView {
     private Scanner scn;
+    private static final String ASSISTANT_TYPE_STRING = "ASSISTENTE";
+    private static final String DOCTOR_TYPE_STRING = "MEDICO";
 
     public UserView() {
         scn = new Scanner(System.in);
     }
 
+    private String readString(String prompt) {
+        System.out.print(prompt);
+        String value = scn.next();
+        scn.nextLine();
+        return value;
+    }
+
     public User userRead() {
-        System.out.print("Nome: ");
-        String name = scn.next();
-        name += scn.nextLine();
-        System.out.print("Nome Login: ");
-        String loginName = scn.next();
-        name += scn.nextLine();
-        System.out.print("Senha: ");
-        String password = scn.next();
-        password += scn.nextLine();
+        String name = readString("Nome: ");
+        String loginName = readString("Nome Login: ");
+        String password = readString("Senha: ");
+
         Type type = Type.UNDEFINED;
         boolean control = true;
         while (control) {
-            System.out.print("Tipo: ");
-            try {
-                String typeString = scn.next();
-                typeString += scn.nextLine();
-                String typeStringUpper = typeString.toUpperCase();
-                if (typeStringUpper.equals("ASSISTENTE")) {
+            String typeString = readString("Tipo: ").toUpperCase();
+            switch (typeString) {
+                case "ASSISTENTE":
                     type = Type.ASSISTANT;
-                }
-                if (typeStringUpper.equals("MEDICO")) {
+                    control = false;
+                    break;
+                case "MEDICO":
                     type = Type.DOCTOR;
-                }
-
-                control = false;
-            } catch (InputMismatchException i) {
-                System.out.println("Número não deve ser String");
-                scn.nextLine();
+                    control = false;
+                    break;
+                default:
+                    System.out.println("Tipo inválido. Tente novamente.");
             }
         }
         User user = User.getInstance(name, loginName, password, type).orElseThrow();
@@ -103,8 +103,5 @@ public class UserView {
 
     }
 
-    public void print(String msg){
-        System.out.println(msg);
-    }
 
 }
