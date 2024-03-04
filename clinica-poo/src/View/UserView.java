@@ -9,8 +9,6 @@ import enums.Type;
 
 public class UserView {
     private Scanner scn;
-    private static final String ASSISTANT_TYPE_STRING = "ASSISTENTE";
-    private static final String DOCTOR_TYPE_STRING = "MEDICO";
 
     public UserView() {
         scn = new Scanner(System.in);
@@ -102,6 +100,4 @@ public class UserView {
         System.out.println("\n");
 
     }
-
-
 }
