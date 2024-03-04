@@ -18,4 +18,4 @@ A visualização `JAVA PROJECTS` permite que você gerencie suas dependências. 
 
 ## Sobre o projeto
 
-O objeto foi desenvolver um software de registro de consultas aplicando os conceitos de programação orientada a objetos e seus padrões na linguagem Java, sem o uso de frameworks. O sistema é composto por dois módulos principais: o módulo de cadastro de paciente, acessado pelo(a) atendente, e o módulo de anamnese, acessado pelo(a) médico(a).
+O objeto foi desenvolver um software de registro de consultas aplicando os conceitos de programação orientada a objetos e seus padrões na linguagem Java, bem como inversão de dependência, sem o uso de frameworks. O sistema é composto por dois módulos principais: o módulo de cadastro de paciente, acessado pelo(a) atendente, e o módulo de anamnese, acessado pelo(a) médico(a).
