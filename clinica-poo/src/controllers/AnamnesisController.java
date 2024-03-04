@@ -12,19 +12,16 @@ public class AnamnesisController {
     private AnamneseView anamneseView;
     private IAnamnesis anaminesisRepository;
     
-
     public AnamnesisController(IAnamnesis anaminesisRepository) {
 		anamneseView = new AnamneseView();
 		this.anaminesisRepository = anaminesisRepository;
         this.init();
-        
 	}
 
     public void add() {
         Anamnesis newAnamnesis = anamneseView.readAnamnesis();
         anaminesisRepository.add(newAnamnesis);
     }
-
 
     public List<Anamnesis> list() {
         return anaminesisRepository.list();
@@ -33,15 +30,12 @@ public class AnamnesisController {
     public void update() {
         Anamnesis updatedAnamnesis = anamneseView.readAnamnesis();
         anaminesisRepository.update(updatedAnamnesis);
-        
     }
 
     public Anamnesis buscarAnamnese() {
         long id = anamneseView.inputId();
         anamneseView.listOne(anaminesisRepository.findById(id));
-        return null;
-        
-        
+        return null;    
     }
 
     public void init() {

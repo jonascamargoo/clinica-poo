@@ -6,15 +6,12 @@ import java.util.List;
 import Model.User;
 import View.UserView;
 import enums.Type;
-import exceptions.UsuarioNaoEncontradoException;
 import repositories.IUser;
 
 public class UserController {
 
     private UserView userView;
     private IUser userRepository;
-
-    // Faz sentido injecao de dependencia utilizando apenas o IUser? Isolando o user repository apenas nos metodos
 
     public UserController(IUser userRepository) {
         userView = new UserView();
@@ -29,11 +26,8 @@ public class UserController {
 
     public void remove() {
         long id = userView.userDelete();
-        try {
-            userRepository.delete(id);
-        } catch (UsuarioNaoEncontradoException e) {
-            e.printStackTrace();
-        }  
+        userRepository.delete(id);
+       
     }
 
     public User findUser(long id) {
@@ -42,29 +36,18 @@ public class UserController {
 
     public void update() {
         User updatedUser = userView.userUpdate();
-        try {
-            userRepository.update(updatedUser);
-        } catch (UsuarioNaoEncontradoException e) {
-            e.printStackTrace();
-        }
+        userRepository.update(updatedUser);
+        
     }
 
     public List<User> list() {
         return userRepository.list();
     }
 
-    public boolean userExists(long id) {
-        return userRepository.userExists(id);
-    }
-
-    public boolean delete() {
+    public void delete() {
         long id = userView.userDelete();
-        try {
-            userRepository.delete(id);
-        } catch (UsuarioNaoEncontradoException e) {
-            e.printStackTrace();
-        }
-        return false;
+        userRepository.delete(id);
+        
     }
 
     public void init() {

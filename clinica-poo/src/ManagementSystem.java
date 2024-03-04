@@ -63,7 +63,6 @@ public class ManagementSystem {
     }
 
     public void iniciar() {
-
         menuView = new MenuView();
         // patientView = new patientView();
         userView = new UserView();

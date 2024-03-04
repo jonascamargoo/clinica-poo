@@ -4,18 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Model.User;
-import exceptions.UsuarioNaoEncontradoException;
+import exceptions.UserNotFoundException;
 
 public class UserRepository implements IUser {
 	private List<User> users;
 	private long nextId;
 
 	private static UserRepository userRepository;
-
-	public UserRepository() {
-		users = new ArrayList<User>();
-		nextId = 1;
-	}
 
 	public static UserRepository getInstance() {
 		if (userRepository == null) {
@@ -24,74 +19,44 @@ public class UserRepository implements IUser {
 		return userRepository;
 	}
 
-	@Override
-	public boolean add(User u) {
-		if (u == null) {
-			return false;
-		} else {
-			u.setId(nextId);
-			nextId++;
-			if (users.add(u)) {
-				return true;
-			}
-		}
-		return false;
+	public UserRepository() {
+		users = new ArrayList<User>();
+		nextId = 1;
 	}
 
-	@Override
-	public void delete(long id) throws UsuarioNaoEncontradoException {
-		if (!userExists(id)) {
-			throw new UsuarioNaoEncontradoException("Usuário não existe");
-		}
-		for (int i = 0; i < users.size(); i++) {
-			if (users.get(i).getId() == id) {
-				users.remove(i);
-			}
-		}
+
+	public void add(User user) {
+		user.setId(nextId);
+		nextId++;
+		this.users.add(user);
 	}
 
-	@Override
+	// poderia deletar por id diretamente, mas prefiro tratar o caso null apenas no findById. Além disso, nao há tratamento na view, portanto a melhor abordagem para esse caso e achar o user pelo findById e deletar utilizando o objeto em si
+	public void delete(long id) {
+		User user = findById(id);
+		users.remove(user);
+	}
+
 	public User findById(long idUser) {
-		for (User user : users) {
-			if (user.getId() == idUser)
-				return user;
-		}
-		return null;
+		return users.stream()
+			.filter(user -> user.getId() == idUser)
+			.findFirst()
+			.orElseThrow(() -> new UserNotFoundException());
 	}
 
-	@Override
-	public void update(User updatedUser) throws UsuarioNaoEncontradoException {
-		if (updatedUser == null) {
-			throw new NullPointerException();
-		}
-		if (!userExists(updatedUser.getId())) {
-			throw new UsuarioNaoEncontradoException("Usuário não existe");
-		}
-		for (int i = 0; i < users.size(); i++) {
-			if (users.get(i).getId() == updatedUser.getId()) {
-				users.set(i, updatedUser);
-			}
-		}
+	public void update(User updatedUser) {
+		User user = findById(updatedUser.getId());
+		users.set(users.indexOf(user), user);
 	}
 
-	// isso aqui so pode ser piada
 	public List<User> list() {
-		List<User> usersCopia = new ArrayList<User>();
-		for (User usuario : users) {
-			usersCopia.add(new User(usuario));
-		}
-
-		return usersCopia;
+		return new ArrayList<User>(this.users);
 	}
 
 	public boolean userExists(long idUser) {
-		for (User user : users) {
-			if (user.getId() == idUser) {
-				return true;
-			}
-		}
-		return false;
-	}
+		return users.stream()
+			.anyMatch(user -> user.getId() == idUser);
 
+	}
 
 }
