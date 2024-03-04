@@ -41,6 +41,8 @@ public class PatientRepository implements IPatient {
             throw new InvalidPatientException("paciente com o mesmo nome da mãe.");
         if (duplicateCNS(patient)) 
             throw new InvalidPatientException("paciente com o mesmo número de CNS.");
+        patient.setId(nextId);
+        nextId++;
         this.patients.add(patient);
     }
 
@@ -106,8 +108,5 @@ public class PatientRepository implements IPatient {
     public List<Patient> list() {
         return new ArrayList<>(this.patients);
     }
-
-
-    
 
 }
