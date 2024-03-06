@@ -79,17 +79,21 @@ public class AnamneseView {
         System.out.println("\n");
     }
 
-    private void listHeader() {
-        System.out.printf("%7s%15s%25s%30s%30s%30s", "ID", "PACIENTE", "MÃE DO PACIENTE", "MOTIVO", "RELATO",
-        "DIAGNOSTICO\n");
-    }
+    // consertar formatacao do header e body - seguir padrao do patient
+    // private void listHeader() {
+    //     System.out.printf("%7s%15s%25s%30s%30s%15s", "ID", "PACIENTE", "MÃE DO PACIENTE", "MOTIVO", "RELATO",
+    //     "DIAGNOSTICO\n");
+    // }
 
-    private void listBody(Anamnesis anamnesis) {
-        System.out.printf("%7s%15s%25s%30s%30s%30s", anamnesis.getId(), anamnesis.getPatient().getName(),
-        anamnesis.getPatient().getMotherName(), anamnesis.getReason(), anamnesis.getReport(),
-        anamnesis.getDiagnosis() + "\n");
-    }
+    // private void listBody(Anamnesis anamnesis) {
+    //     System.out.printf("%7s%15s%20s%30s%30s%20s", anamnesis.getId(), anamnesis.getPatient().getName(),
+    //     anamnesis.getPatient().getMotherName(), anamnesis.getReason(), anamnesis.getReport(),
+    //     anamnesis.getDiagnosis() + "\n");
+    // }
 
 
     
 }
+
+
+ 
